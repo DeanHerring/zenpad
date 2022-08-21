@@ -1,0 +1,4 @@
+fonts/
+pug/
+css/*
+!main.min.css
