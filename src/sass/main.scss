@@ -1,0 +1,82 @@
+// fonts
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400&display=swap');
+
+// Variables
+@import "variables.scss";
+
+// Mixins
+@import "mixins.scss";
+
+// Default
+@import "default.scss";
+
+#wrapper {
+	padding: 3.5% 0 3.5% 0;
+}
+
+::webkit-scrollbar {
+	opacity: 0;
+}
+
+.files {
+	display: none;
+}
+
+.eye {
+	position: absolute;
+	top: 25px;
+	left: 25px;
+	.icon {
+		font-size: 25px;
+		color: #354B5F;
+		cursor: pointer;
+		&.hidden {
+			display: none;
+		}
+	}
+}
+
+.buttons {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 20px;
+	&.hidden {
+		display: none;
+	}
+	button {
+		margin: 10px 5px;
+		border: 0;
+		padding: 10px 15px;
+		font-size: 19px;
+		cursor: pointer;
+		z-index: 2;
+		position: relative;
+		background-color: #263645;
+		color: #f4f4f4;
+		border-radius: 5px;
+		transition: all .3s;
+		&:hover {
+			background-color: #354B5F;
+		}
+	}
+}
+
+.ql-editor {
+	padding: 0;
+	.ql-editor {
+		background-color: rgba(0,0,0,0);
+		width: 1000px;
+		max-width: 90%;
+		font-family: "Merriweather", sans-serif;
+		font-size: 160%;
+		color: #f4f4f4;
+		margin: 0 auto;
+		p {
+			margin: 1em 0;
+		}
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
+}
