@@ -17,8 +17,51 @@ const filesFile = document.querySelector(".files__file");
 const eyeIcon = document.querySelector(".eye-icon");
 const eyeIconSlash = document.querySelector(".eye-icon-slash");
 
-localStorage.text ? quill.setText(localStorage.text) : false;
+let cps = 0;
+
+let audioKey = new Audio(`../Typing Sounds/Bubbles/key_0.wav`);
+let audioBackspace = new Audio(`../Typing Sounds/Bubbles/backspace.wav`);
+let audioSpacebar = new Audio(`../Typing Sounds/Bubbles/spacebar.wav`);
+let audioReturn = new Audio(`../Typing Sounds/Bubbles/return.wav`);
+
+localStorage.text ? quill.setText(localStorage.text) : quill.setText('Okay dude...');
 save.addEventListener("click", () => (localStorage.text = quill.getText()));
+
+setInterval(() => {
+	cps = 0;
+}, 1000);
+
+// typing sound
+const playSound = (audio) => {
+	cps += 1;
+
+	const sps = cps * audio.duration;
+
+	audio.volume = 0.2;
+	audio.currentTime = 0.0;
+	sps < 1 ? (audio.playbackRate = 1.0) : (audio.playbackRate = sps);
+
+	audio.play();
+};
+
+quill.on("text-change", (delta) => {
+	if (delta.ops[1].insert) {
+		playSound(audioSpacebar);
+	}
+	if (delta.ops[1].delete) {
+		playSound(audioBackspace);
+	}
+	if (delta.ops[1].insert === "\n") {
+		playSound(audioReturn);
+	}
+	if (
+		delta.ops[1].insert !== " " &&
+		!delta.ops[1].delete &&
+		delta.ops[1].insert !== "\n"
+	) {
+		playSound(audioKey);
+	}
+});
 
 // export
 exportF.addEventListener("click", () => {
