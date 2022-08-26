@@ -22,10 +22,10 @@ let volumeOff = false;
 
 let cps = 0;
 
-let audioKey = new Audio(`../Typing Sounds/Bubbles/key_0.wav`);
-let audioBackspace = new Audio(`../Typing Sounds/Bubbles/backspace.wav`);
-let audioSpacebar = new Audio(`../Typing Sounds/Bubbles/spacebar.wav`);
-let audioReturn = new Audio(`../Typing Sounds/Bubbles/return.wav`);
+let audioKey = new Audio(`https://deanherring.github.io/zenpad/Typing Sounds/Bubbles/key_0.wav`);
+let audioBackspace = new Audio(`https://deanherring.github.io/zenpad/Typing Sounds/Bubbles/backspace.wav`);
+let audioSpacebar = new Audio(`https://deanherring.github.io/zenpad/Typing Sounds/Bubbles/spacebar.wav`);
+let audioReturn = new Audio(`https://deanherring.github.io/zenpad/Typing Sounds/Bubbles/return.wav`);
 
 localStorage.text
 	? quill.setText(localStorage.text)
