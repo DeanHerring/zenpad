@@ -14,9 +14,14 @@ html(lang='en')
 	body
 			#wrapper
 
-				.eye
-					i.fa-solid.fa-eye.icon.eye-icon
-					i.fa-solid.fa-eye-slash.icon.hidden.eye-icon-slash
+				.settings
+					.eye
+						i.fa-solid.fa-eye.icon.eye-icon
+						i.fa-solid.fa-eye-slash.icon.hidden.eye-icon-slash
+
+					.volume
+						i.fa-solid.fa-volume-low.icon.volume-icon
+						i.fa-solid.fa-volume-xmark.icon.hidden.volume-icon-slash
 
 				form.files(enctype="multipart/form-data")
 					input.files__file(type="file")
