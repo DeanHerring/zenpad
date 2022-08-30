@@ -12,7 +12,7 @@ const baseDir = "src"
 gulp.task("browser-sync", function () {
   browserSync.init({
     server: {
-      baseDir: `dist/`
+      baseDir: `docs/`
     },
     notify: "false",
     online: false,
@@ -29,32 +29,32 @@ gulp.task("sass", function () {
     .pipe(rename({ suffix: ".min", prefix: "" })) // rename
     .pipe(cleanCSS()) // clean css
     .pipe(autoprefixer({ browserlist: ["last 10 versions"], cascade: false })) // autoprefixer
-    .pipe(gulp.dest("dist/css")) // Путь к папке с конечными файлами
+    .pipe(gulp.dest("docs/css")) // Путь к папке с конечными файлами
     .pipe(browserSync.reload({ stream: true }));
 });
 
 gulp.task("js", function () {
   return gulp.src("src/js/**/*.js")
-      .pipe(gulp.dest("dist/js"))
+      .pipe(gulp.dest("docs/js"))
       .pipe(browserSync.reload({ stream: true }));
 });
 
 gulp.task("pug", function () {
   return gulp.src("src/**/*.pug")
   	.pipe(pug({ pretty: true }))
-  	.pipe(gulp.dest('dist'))
+  	.pipe(gulp.dest('docs'))
   	.pipe(browserSync.reload({ stream: true }));
 });
 
 gulp.task("img", function () {
   return gulp.src("src/img/*")
-    .pipe(gulp.dest('dist/img'))
+    .pipe(gulp.dest('docs/img'))
     .pipe(browserSync.reload({ stream: true }));
 });
 
 gulp.task("fonts", function () {
   return gulp.src("src/fonts/*")
-    .pipe(gulp.dest('dist/fonts'))
+    .pipe(gulp.dest('docs/fonts'))
     .pipe(browserSync.reload({ stream: true }));
 });
 

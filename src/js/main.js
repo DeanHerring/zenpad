@@ -22,10 +22,10 @@ let volumeOff = false;
 
 let cps = 0;
 
-let audioKey = new Audio(`../Typing Sounds/Bubbles/key_0.wav`);
-let audioBackspace = new Audio(`../Typing Sounds/Bubbles/backspace.wav`);
-let audioSpacebar = new Audio(`../Typing Sounds/Bubbles/spacebar.wav`);
-let audioReturn = new Audio(`../Typing Sounds/Bubbles/return.wav`);
+let audioKey = new Audio(`/Typing Sounds/Springs/key_0.wav`);
+let audioBackspace = new Audio(`/Typing Sounds/Springs/backspace.wav`);
+let audioSpacebar = new Audio(`/Typing Sounds/Springs/spacebar.wav`);
+let audioReturn = new Audio(`/Typing Sounds/Springs/return.wav`);
 
 localStorage.text
 	? quill.setText(localStorage.text)
