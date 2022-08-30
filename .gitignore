@@ -4,3 +4,5 @@ docs/fonts
 docs/pug
 docs/css
 !docs/css/main.min.css
+
+src
