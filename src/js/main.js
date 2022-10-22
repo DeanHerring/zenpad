@@ -1,4 +1,4 @@
-const localUrl = './';
+const localUrl = '.';
 const prodUrl = 'https://deanherring.github.io/zenpad'
 
 const quill = new Quill(".ql-editor", {
@@ -27,10 +27,10 @@ let cps = 0;
 
 let audioName = 'Icicles'
 
-let audioKey = new Audio(`${prodUrl}/Typing Sounds/${audioName}/key_0.wav`);
-let audioBackspace = new Audio(`${prodUrl}/Typing Sounds/${audioName}/backspace.wav`);
-let audioSpacebar = new Audio(`${prodUrl}/Typing Sounds/${audioName}/spacebar.wav`);
-let audioReturn = new Audio(`${prodUrl}/Typing Sounds/${audioName}/return.wav`);
+let audioKey = new Audio(`${localUrl}/Typing Sounds/${audioName}/key_0.wav`);
+let audioBackspace = new Audio(`${localUrl}/Typing Sounds/${audioName}/backspace.wav`);
+let audioSpacebar = new Audio(`${localUrl}/Typing Sounds/${audioName}/spacebar.wav`);
+let audioReturn = new Audio(`${localUrl}/Typing Sounds/${audioName}/return.wav`);
 
 localStorage.text
 	? quill.setText(localStorage.text)

@@ -1,4 +1,4 @@
-const localUrl = './';
+const localUrl = '.';
 const prodUrl = 'https://deanherring.github.io/zenpad'
 
 const quill = new Quill(".ql-editor", {
@@ -27,10 +27,10 @@ let cps = 0;
 
 let audioName = 'Icicles'
 
-let audioKey = new Audio(`${prodUrl}/Typing Sounds/${audioName}/key_0.wav`);
-let audioBackspace = new Audio(`${prodUrl}/Typing Sounds/${audioName}/backspace.wav`);
-let audioSpacebar = new Audio(`${prodUrl}/Typing Sounds/${audioName}/spacebar.wav`);
-let audioReturn = new Audio(`${prodUrl}/Typing Sounds/${audioName}/return.wav`);
+let audioKey = new Audio(`${prodUrl}/Typing Sounds/${audioName}/Key_0.wav`);
+let audioBackspace = new Audio(`${prodUrl}/Typing Sounds/${audioName}/Backspace.wav`);
+let audioSpacebar = new Audio(`${prodUrl}/Typing Sounds/${audioName}/Spacebar.wav`);
+let audioReturn = new Audio(`${prodUrl}/Typing Sounds/${audioName}/Return.wav`);
 
 localStorage.text
 	? quill.setText(localStorage.text)
@@ -50,8 +50,6 @@ const playSound = (audio) => {
 	volumeOff ? audio.volume = 0.0 : audio.volume = 0.1
 	audio.currentTime = 0.0;
 	sps < 1 ? (audio.playbackRate = 1.0) : (audio.playbackRate = sps);
-
-	console.log(sps)
 
 	audio.play();
 };
