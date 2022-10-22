@@ -51,6 +51,8 @@ const playSound = (audio) => {
 	audio.currentTime = 0.0;
 	sps < 1 ? (audio.playbackRate = 1.0) : (audio.playbackRate = sps);
 
+	console.log(sps)
+
 	audio.play();
 };
 
