@@ -20,6 +20,7 @@
   "homepage": "https://github.com/DeanHerring/html-template#readme",
   "devDependencies": {
     "browser-sync": "^2.29.1",
+    "concurrently": "^8.2.0",
     "del": "^7.0.0",
     "gulp": "^4.0.2",
     "gulp-sass": "^5.1.0",
