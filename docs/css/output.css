@@ -591,16 +591,16 @@ video {
   min-height: 100vh;
 }
 
+.w-\[1300px\]{
+  width: 1300px;
+}
+
 .w-\[500px\]{
   width: 500px;
 }
 
 .w-full{
   width: 100%;
-}
-
-.w-\[1300px\]{
-  width: 1300px;
 }
 
 .max-w-\[90\%\]{
@@ -639,11 +639,6 @@ video {
 .py-\[50px\]{
   padding-top: 50px;
   padding-bottom: 50px;
-}
-
-.py-\[100px\]{
-  padding-top: 100px;
-  padding-bottom: 100px;
 }
 
 .font-ysa{
