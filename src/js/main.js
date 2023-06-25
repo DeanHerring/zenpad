@@ -1,24 +1,15 @@
 const editor = document.querySelector('#editor');
 
-// function scrollToElement(element) {
-//   // Получаем позицию элемента относительно верхней границы документа
-//   var offsetTop = element.offsetTop;
-
-//   // Прокручиваем документ до позиции элемента
-//   window.scrollTo({
-//     top: offsetTop,
-//     behavior: 'smooth', // Используем плавную прокрутку, если поддерживается
-//   });
-// }
-
 // Ещё лучше, осталось только решить проблему с внешними паддингами
 function scrollToElement(element, block) {
-  var offsetTop = element.offsetTop;
-  var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  const offsetTop = element.offsetTop;
+  const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  const editor_offset = editor.offsetTop;
 
-  var scrollPosition;
+  let scrollPosition;
+
   if (block === 'center') {
-    scrollPosition = offsetTop - windowHeight / 2 + element.offsetHeight;
+    scrollPosition = offsetTop - windowHeight / 2 + element.offsetHeight + editor_offset;
   } else {
     scrollPosition = offsetTop;
   }
