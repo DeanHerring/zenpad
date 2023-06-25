@@ -1,6 +1,7 @@
 const editor = document.querySelector('#editor');
 
 // Ещё лучше, осталось только решить проблему с внешними паддингами
+// Идеально?
 function scrollToElement(element, block) {
   const offsetTop = element.offsetTop;
   const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
