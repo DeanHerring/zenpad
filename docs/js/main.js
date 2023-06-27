@@ -30,13 +30,33 @@ eval("__webpack_require__.r(__webpack_exports__);\nconst checkboxShowBorder = do
 
 /***/ }),
 
+/***/ "./src/js/UI/editor.js":
+/*!*****************************!*\
+  !*** ./src/js/UI/editor.js ***!
+  \*****************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\nconst editor = document.querySelector('#editor');\r\nconst settingOpen = document.querySelector('#setting__open');\r\n\r\nconst fontSize = localStorage.getItem('font_size');\r\nconst paperWidth = localStorage.getItem('paper_width');\r\nconst showBorder = localStorage.getItem('show_border');\r\nconst soundName = localStorage.getItem('sound_name');\r\nconst themeName = localStorage.getItem('theme_name');\r\nconst volumeClick = localStorage.getItem('volume_click');\r\n\r\n// Editor\r\neditor.addEventListener('keydown', () => settingOpen.classList.add('hidden'));\r\neditor.addEventListener('mouseout', () => settingOpen.classList.remove('hidden'));\r\n\r\n// Font Size\r\n// if (fontSize) {\r\n//   editor.style.fontSize = `${fontSize}px`;\r\n// }\r\n\r\n// Paper Width\r\n\r\n// Show Border\r\nif (showBorder && JSON.parse(showBorder)) {\r\n  editor.style.border = '1px solid red';\r\n}\r\n\r\n// Sound Name\r\n\r\n// Theme Name\r\n\r\n// Volume Clikc\r\n\n\n//# sourceURL=webpack://html-template/./src/js/UI/editor.js?");
+
+/***/ }),
+
 /***/ "./src/js/UI/input.js":
 /*!****************************!*\
   !*** ./src/js/UI/input.js ***!
   \****************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\nconst sliders = document.querySelectorAll('#mySlider');\r\n\r\nconst setSliderValue = (storageID, sliderClass) => {\r\n  sliders.forEach((slider) => {\r\n    if (localStorage.getItem(storageID) && slider.classList.contains(sliderClass)) {\r\n      slider.value = localStorage.getItem(storageID);\r\n    }\r\n  });\r\n};\r\n\r\nsetSliderValue('paper_width', 'slider__paper-width');\r\nsetSliderValue('font_size', 'slider__font-size');\r\nsetSliderValue('volume_click', 'slider__volume-click');\r\n\r\nsliders.forEach((slider) => {\r\n  slider.addEventListener('input', () => {\r\n    console.log('Uashdjbajhsd');\r\n    slider.style.setProperty('--slider-value', slider.value);\r\n  });\r\n  slider.addEventListener('change', () => {\r\n    if (slider.classList.contains('slider__paper-width')) {\r\n      localStorage.setItem('paper_width', slider.value);\r\n    }\r\n    if (slider.classList.contains('slider__font-size')) {\r\n      localStorage.setItem('font_size', slider.value);\r\n    }\r\n    if (slider.classList.contains('slider__volume-click')) {\r\n      localStorage.setItem('volume_click', slider.value);\r\n    }\r\n  });\r\n\r\n  slider.style.setProperty('--slider-value', slider.value);\r\n});\r\n\n\n//# sourceURL=webpack://html-template/./src/js/UI/input.js?");
+eval("__webpack_require__.r(__webpack_exports__);\nconst sliders = document.querySelectorAll('#mySlider');\r\nconst paperWidth = document.querySelector('.paper_width');\r\nconst fontSize = document.querySelector('.font_size');\r\nconst volumeClick = document.querySelector('.volume_click');\r\nconst wallpaper = document.querySelector('.wallpaper');\r\n\r\nconst setSliderValue = (storageID, sliderClass) => {\r\n  sliders.forEach((slider) => {\r\n    if (localStorage.getItem(storageID) && slider.classList.contains(sliderClass)) {\r\n      slider.value = localStorage.getItem(storageID);\r\n    }\r\n  });\r\n};\r\n\r\nsetSliderValue('paper_width', 'slider__paper-width');\r\nsetSliderValue('font_size', 'slider__font-size');\r\nsetSliderValue('volume_click', 'slider__volume-click');\r\nsetSliderValue('background_blur', 'slider__background-blur');\r\nsetSliderValue('background_brightness', 'slider__background-brightness');\r\n\r\nsliders.forEach((slider) => {\r\n  slider.addEventListener('input', () => {\r\n    slider.style.setProperty('--slider-value', slider.value);\r\n  });\r\n  slider.addEventListener('change', () => {\r\n    if (slider.classList.contains('slider__paper-width')) {\r\n      localStorage.setItem('paper_width', slider.value);\r\n      paperWidth.innerText = `(${slider.value}%)`;\r\n    }\r\n    if (slider.classList.contains('slider__font-size')) {\r\n      localStorage.setItem('font_size', slider.value);\r\n    }\r\n    if (slider.classList.contains('slider__volume-click')) {\r\n      localStorage.setItem('volume_click', slider.value);\r\n    }\r\n    if (slider.classList.contains('slider__background-blur')) {\r\n      localStorage.setItem('background_blur', slider.value);\r\n      console.log(slider.value);\r\n      wallpaper.style.backdropFilter = `blur(${slider.value}px)`;\r\n    }\r\n    if (slider.classList.contains('slider__background-brightness')) {\r\n      localStorage.setItem('background_brightness', slider.value);\r\n      wallpaper.style.filter = `brightness(${slider.value}%)`;\r\n    }\r\n  });\r\n\r\n  slider.style.setProperty('--slider-value', slider.value);\r\n});\r\n\n\n//# sourceURL=webpack://html-template/./src/js/UI/input.js?");
+
+/***/ }),
+
+/***/ "./src/js/UI/slider.js":
+/*!*****************************!*\
+  !*** ./src/js/UI/slider.js ***!
+  \*****************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\nconst swiper = new Swiper('.mySwiper', {\r\n  spaceBetween: 30,\r\n});\r\n\r\nconst images = [\r\n  'https://images.pexels.com/photos/1402787/pexels-photo-1402787.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',\r\n  'https://images.pexels.com/photos/443446/pexels-photo-443446.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',\r\n  'https://images.pexels.com/photos/36717/amazing-animal-beautiful-beautifull.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',\r\n];\r\n\r\nconst slides = document.querySelectorAll('.slider_background');\r\nconst wallapaper = document.querySelector('.wallpaper');\r\n\r\nwallapaper.style.backgroundImage = localStorage.getItem('background_image')\r\n  ? `url(${images[parseInt(localStorage.getItem('background_image'))]})`\r\n  : `url(${images[0]})`;\r\n\r\nslides.forEach((slide, index) => {\r\n  slide.addEventListener('click', () => {\r\n    slides.forEach((slide) => slide.classList.remove('active'));\r\n    slide.classList.toggle('active');\r\n\r\n    localStorage.setItem('background_image', index);\r\n    wallapaper.style.backgroundImage = `url(${images[index]})`;\r\n  });\r\n});\r\n\n\n//# sourceURL=webpack://html-template/./src/js/UI/slider.js?");
 
 /***/ }),
 
@@ -135,7 +155,9 @@ eval("__webpack_require__.r(__webpack_exports__);\nconst editor = document.query
 /******/ 	__webpack_require__("./src/js/UI.js");
 /******/ 	__webpack_require__("./src/js/Utils.js");
 /******/ 	__webpack_require__("./src/js/UI/checkbox.js");
-/******/ 	var __webpack_exports__ = __webpack_require__("./src/js/UI/input.js");
+/******/ 	__webpack_require__("./src/js/UI/editor.js");
+/******/ 	__webpack_require__("./src/js/UI/input.js");
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/js/UI/slider.js");
 /******/ 	
 /******/ })()
 ;
