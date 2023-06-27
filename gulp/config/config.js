@@ -14,6 +14,10 @@ export const config = {
 // Путь для отслеживания html
 config.HTML_DIR = `${config.BASE_DIR}/**/*.html`;
 
+// Путь для отслеживания scss
+config.SCSS_DIR = `${config.BASE_DIR}/sass/**/*.scss`;
+config.SCSS_OUTPUT_DIR = `${config.OUTPUT_DIR}/css`;
+
 // Путь для отслеживания js
 config.JS_DIR = `${config.BASE_DIR}/js/**/*.js`;
 config.JS_OUTPUT_DIR = `${config.OUTPUT_DIR}/js`;

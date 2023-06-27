@@ -5,6 +5,7 @@ import { autoreload } from './autoreload.js';
 import { html } from './html.js';
 import { images } from './images.js';
 import { js } from './js.js';
+import { scss } from './scss.js';
 
 import { config } from '../config/config.js';
 
@@ -13,5 +14,6 @@ export const watcher = () => {
 
   gulp.watch(config.HTML_DIR, html);
   gulp.watch(config.IMAGES_DIR, images);
+  gulp.watch(config.SCSS_DIR, scss);
   gulp.watch(config.JS_DIR, js);
 };

@@ -28,6 +28,7 @@
     "tailwindcss": "^3.3.2"
   },
   "dependencies": {
+    "animate.css": "^4.1.1",
     "gulp-autoprefixer": "^8.0.0",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",

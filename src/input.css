@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Ysabeau+Office&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Мне кажется это банально бессмысленно тратить столько времени на кастомизацию какого-то говна, поскольку в итоге это всё равно всё будет на реакте. */

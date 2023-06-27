@@ -43,7 +43,7 @@ var quill = new Quill(editor, {
   modules: {
     toolbar: false,
   },
-  placeholder: 'Hello, world',
+  placeholder: 'Write something awesome...',
 });
 //
 
