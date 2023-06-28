@@ -1,9 +1,10 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import '@/styles/main.scss';
 import { Utils } from '@/utils/Utils';
+import { sounds } from '@/sounds/sound';
 
 const utils = new Utils();
 
@@ -31,7 +32,6 @@ const Editor = () => {
       behavior: 'smooth',
     });
   };
-
   const centered = () => {
     let selection = window.getSelection();
 
@@ -46,9 +46,23 @@ const Editor = () => {
       scrollToElement(currentNode, 'center');
     }
   };
+  const handleSound = (e) => {
+    if (localStorage.getItem('sound_name')) {
+      const soundName = localStorage.getItem('sound_name').replace(/\s/g, '').toLowerCase();
+      const { backspace, key_0, key_1, key_2, key_3, key_4, key_5, key_6, key_return, spacebar } = sounds[soundName];
+      const randomNumber = Math.floor(Math.random() * 7);
+      const keys = [key_0, key_1, key_2, key_3, key_4, key_5, key_6];
 
-  const playSound = () => {
-    console.log('Play Sound');
+      e.keyCode === 8 && playSound(backspace);
+      e.keyCode === 32 && playSound(spacebar);
+      e.keyCode === 13 && playSound(key_return);
+      e.keyCode !== 8 && e.keyCode !== 32 && e.keyCode !== 13 && playSound(keys[randomNumber]);
+    }
+  };
+
+  const playSound = (sound) => {
+    const audio = new Audio(sound);
+    audio.play();
   };
 
   const blurValue = utils.parseLocalStorage('blur') !== undefined ? utils.parseLocalStorage('blur') : state.blur;
@@ -78,9 +92,9 @@ const Editor = () => {
           modules={{ toolbar: false }}
           value="Writer something beatiful..."
           onChange={centered}
-          onKeyDown={() => {
+          onKeyDown={(e) => {
             centered();
-            playSound();
+            handleSound(e);
           }}
           onKeyUp={centered}
           className="font-ysa text-white-2 text-7xl max-w-[90%] w-[1300px] mx-auto"

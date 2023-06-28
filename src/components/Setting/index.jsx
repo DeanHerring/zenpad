@@ -43,14 +43,12 @@ const Setting = () => {
   const sounds = [
     'Wood',
     '8 bit',
-    'Bubbles',
     'Blaster',
     'Case',
     'Frogs',
     'HF',
     'Icicles',
     'Leaves',
-    'Old typewriter',
     'Paws',
     'Scope',
     'Springs',
@@ -70,14 +68,14 @@ const Setting = () => {
           </header>
           <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-1100:block ">
             <SelectList
-              title="Цветовая тема"
+              title="Звуки клавиш"
               activeValue={activeSound}
               items={sounds}
               sliceMethod={setSoundName}
               storageID="sound_name"
             />
             <SelectList
-              title="Звуки клавиш"
+              title="Цветовая тема"
               activeValue={activeTheme}
               items={themes}
               sliceMethod={setTheme}
