@@ -4,7 +4,14 @@ import { faXmark, faSortUp, faCheck } from '@fortawesome/free-solid-svg-icons';
 import '@/styles/main.scss';
 import classNames from 'classnames';
 import { background } from '@/images/images';
-import { setShowSetting, setBrightness, setBlur, setActiveBackground } from '@/redux/slices/SettingSlice';
+import {
+  setShowSetting,
+  setBrightness,
+  setBlur,
+  setActiveBackground,
+  setSoundName,
+  setTheme,
+} from '@/redux/slices/SettingSlice';
 import InputSlider from '@/components/Setting/InputSlider';
 
 // Import Swiper React components
@@ -14,6 +21,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Utils } from '@/utils/Utils';
+import SelectList from '@/components/Setting/SelectList';
 
 const utils = new Utils();
 
@@ -29,6 +37,26 @@ const Setting = () => {
   const blurValue = utils.parseLocalStorage('blur') !== undefined ? utils.parseLocalStorage('blur') : state.blur;
   const brightnessValue =
     utils.parseLocalStorage('brightness') !== undefined ? utils.parseLocalStorage('brightness') : state.brightness;
+  const activeSound = localStorage.getItem('sound_name') || state.soundName;
+  const activeTheme = localStorage.getItem('theme_name') || state.themeName;
+
+  const sounds = [
+    'Wood',
+    '8 bit',
+    'Bubbles',
+    'Blaster',
+    'Case',
+    'Frogs',
+    'HF',
+    'Icicles',
+    'Leaves',
+    'Old typewriter',
+    'Paws',
+    'Scope',
+    'Springs',
+    'Toy Piano',
+  ];
+  const themes = ['Light Theme', 'Dark Theme'];
 
   return (
     <div className={classNames(!state.showSetting && 'hidden', 'fixed w-full h-screen z-10 bg-black-2/50')}>
@@ -40,7 +68,23 @@ const Setting = () => {
           <header>
             <h1 className="font-rubik font-medium text-[32px] text-black-1">Настройки</h1>
           </header>
-          <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-750:block">
+          <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-1100:block ">
+            <SelectList
+              title="Цветовая тема"
+              activeValue={activeSound}
+              items={sounds}
+              sliceMethod={setSoundName}
+              storageID="sound_name"
+            />
+            <SelectList
+              title="Звуки клавиш"
+              activeValue={activeTheme}
+              items={themes}
+              sliceMethod={setTheme}
+              storageID="theme_name"
+            />
+          </div>
+          {/* <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-750:block">
             <button className="bg-white-2 rounded-[5px] text-black-1 py-[7.5px] px-[15px] font-rubik duration-300 hover:text-black-1 hover:bg-gray-3 md-750:w-full">
               Import
             </button>
@@ -155,7 +199,7 @@ const Setting = () => {
             >
               <FontAwesomeIcon icon={faCheck} className="text-white-1" />
             </div>
-          </div>
+          </div> */}
           {/* Задний фон */}
           <div className="mt-[25px]">
             <h3 className="font-rubik text-black-1">Задний фон</h3>

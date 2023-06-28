@@ -5,6 +5,8 @@ const initialState = {
   activeBackground: '/zenpad/src/images/background/bg-1.jpg',
   brightness: 30,
   blur: 30,
+  soundName: 'Wood',
+  themeName: 'Light Theme',
 };
 
 export const SettingSlice = createSlice({
@@ -23,8 +25,15 @@ export const SettingSlice = createSlice({
     setBlur(state, action) {
       state.blur = action.payload;
     },
+    setSoundName(state, action) {
+      state.soundName = action.payload;
+    },
+    setTheme(state, action) {
+      state.themeName = action.payload;
+    },
   },
 });
 
-export const { setShowSetting, setActiveBackground, setBrightness, setBlur } = SettingSlice.actions;
+export const { setShowSetting, setActiveBackground, setBrightness, setBlur, setSoundName, setTheme } =
+  SettingSlice.actions;
 export default SettingSlice.reducer;

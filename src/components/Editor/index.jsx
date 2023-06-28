@@ -47,6 +47,10 @@ const Editor = () => {
     }
   };
 
+  const playSound = () => {
+    console.log('Play Sound');
+  };
+
   const blurValue = utils.parseLocalStorage('blur') !== undefined ? utils.parseLocalStorage('blur') : state.blur;
   const brightnessValue =
     utils.parseLocalStorage('brightness') !== undefined ? utils.parseLocalStorage('brightness') : state.brightness;
@@ -74,7 +78,10 @@ const Editor = () => {
           modules={{ toolbar: false }}
           value="Writer something beatiful..."
           onChange={centered}
-          onKeyDown={centered}
+          onKeyDown={() => {
+            centered();
+            playSound();
+          }}
           onKeyUp={centered}
           className="font-ysa text-white-2 text-7xl max-w-[90%] w-[1300px] mx-auto"
           ref={(el) => {

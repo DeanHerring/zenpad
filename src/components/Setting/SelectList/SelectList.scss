@@ -1,0 +1,31 @@
+.MuiInputBase-root {
+  width: 100%;
+  .MuiSelect-select {
+    width: 100%;
+    padding: 7.5px 15px;
+    border: 0;
+    outline: none;
+    background-color: #f4f4f4;
+    font-family: 'Rubik', sans-serif;
+    color: #222;
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border: 0;
+  }
+}
+
+.MuiPaper-root {
+  box-shadow: none;
+  margin-top: 10px;
+  .MuiList-root {
+    padding: 0;
+    .MuiButtonBase-root {
+      background-color: #f4f4f4;
+      color: #222;
+      font-family: 'Rubik', sans-serif;
+      &:hover {
+        background-color: #d2d2d2;
+      }
+    }
+  }
+}
