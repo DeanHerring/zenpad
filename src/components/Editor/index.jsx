@@ -1,6 +1,6 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import '@/styles/main.scss';
 import { Utils } from '@/utils/Utils';
@@ -73,6 +73,14 @@ const Editor = () => {
     utils.parseLocalStorage('volume_click') !== undefined ? utils.parseLocalStorage('volume_click') : state.volumeClick;
   const backgroundImageValue = localStorage.getItem('background_image') || state.activeBackground;
 
+  useEffect(() => {
+    if (editorRef.editor) {
+      const text = localStorage.getItem('text') || state.text;
+
+      editorRef.editor.setText(text);
+    }
+  }, [editorRef, localStorage.getItem('text'), state.text]);
+
   return (
     <div className="mid w-full min-h-screen bg-black-2 bg-cover bg-no-repeat">
       <div className="w-full min-h-screen fixed top-0 left-0">
@@ -93,7 +101,6 @@ const Editor = () => {
         <ReactQuill
           theme="snow"
           modules={{ toolbar: false }}
-          value="Writer something beatiful..."
           onChange={centered}
           onKeyDown={(e) => {
             centered();

@@ -8,6 +8,7 @@ const initialState = {
   soundName: 'Wood',
   themeName: 'Light Theme',
   volumeClick: 30,
+  text: 'Макс делает реклас',
 };
 
 export const SettingSlice = createSlice({
@@ -35,9 +36,20 @@ export const SettingSlice = createSlice({
     setVolumeClick(state, action) {
       state.volumeClick = action.payload;
     },
+    setText(state, action) {
+      state.text = action.payload;
+    },
   },
 });
 
-export const { setShowSetting, setActiveBackground, setBrightness, setBlur, setSoundName, setTheme, setVolumeClick } =
-  SettingSlice.actions;
+export const {
+  setShowSetting,
+  setActiveBackground,
+  setBrightness,
+  setBlur,
+  setSoundName,
+  setTheme,
+  setVolumeClick,
+  setText,
+} = SettingSlice.actions;
 export default SettingSlice.reducer;

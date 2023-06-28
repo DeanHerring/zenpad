@@ -12,6 +12,7 @@ import {
   setSoundName,
   setTheme,
   setVolumeClick,
+  setText,
 } from '@/redux/slices/SettingSlice';
 import InputSlider from '@/components/Setting/InputSlider';
 
@@ -23,16 +24,38 @@ import 'swiper/css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Utils } from '@/utils/Utils';
 import SelectList from '@/components/Setting/SelectList';
+import { useRef } from 'react';
 
 const utils = new Utils();
 
 const Setting = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.SettingSlice);
+  const importFilesRef = useRef(null);
 
   const handleInputValue = (value, sliceMethod, storageID) => {
     dispatch(sliceMethod(value));
     localStorage.setItem(storageID, value);
+  };
+  const importFiles = (e) => {
+    const file = e.target.files[0];
+    if (file.name.endsWith('.txt')) {
+      const reader = new FileReader();
+
+      reader.addEventListener('load', (e) => {
+        const text = e.target.result;
+
+        if (text.length) {
+          dispatch(setText(text));
+          localStorage.setItem('text', text);
+        } else {
+          console.log('Произошла ошибка во время чтения файла');
+        }
+      });
+      reader.readAsText(file);
+    } else {
+      console.log('Выбранный файл не является текстовым файлом (.txt)');
+    }
   };
 
   const blurValue = utils.parseLocalStorage('blur') !== undefined ? utils.parseLocalStorage('blur') : state.blur;
@@ -69,6 +92,19 @@ const Setting = () => {
           <header>
             <h1 className="font-rubik font-medium text-[32px] text-black-1">Настройки</h1>
           </header>
+          <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-750:block">
+            <input type="file" ref={importFilesRef} className="hidden" onChange={(e) => importFiles(e)} />
+            <button
+              onClick={() => importFilesRef.current.click()}
+              className="bg-white-2 rounded-[5px] text-black-1 py-[7.5px] px-[15px] font-rubik duration-300 hover:text-black-1 hover:bg-gray-3 md-750:w-full"
+            >
+              Import
+            </button>
+            <button className="bg-white-2 rounded-[5px] text-black-1 py-[7.5px] px-[15px] font-rubik duration-300 hover:text-black-1 hover:bg-gray-3 flex items-center justify-center md-750:w-full md-750:mt-[10px]">
+              Export
+              <h3 className="font-rubik text-gray-2 ml-[5px]">(14kb)</h3>
+            </button>
+          </div>
           <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-1100:block ">
             <SelectList
               title="Звуки клавиш"
@@ -85,66 +121,7 @@ const Setting = () => {
               storageID="theme_name"
             />
           </div>
-          {/* <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-750:block">
-            <button className="bg-white-2 rounded-[5px] text-black-1 py-[7.5px] px-[15px] font-rubik duration-300 hover:text-black-1 hover:bg-gray-3 md-750:w-full">
-              Import
-            </button>
-            <button className="bg-white-2 rounded-[5px] text-black-1 py-[7.5px] px-[15px] font-rubik duration-300 hover:text-black-1 hover:bg-gray-3 flex items-center justify-center md-750:w-full md-750:mt-[10px]">
-              Export
-              <h3 className="font-rubik text-gray-2 ml-[5px]">(14kb)</h3>
-            </button>
-          </div>
-          <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-1100:block">
-            <div>
-              <h3 className="font-rubik text-black-1">Цветовая тема</h3>
-              <div id="theme" className="ol__select relative mt-[10px]">
-                <div className="ol__select-top bg-white-2 flex items-center justify-between py-[7.5px] px-[15px] rounded-[5px] cursor-pointer">
-                  <h3 className="ol__select-active font-rubik">Light Theme</h3>
-                  <FontAwesomeIcon icon={faSortUp} className="text-black-1" />
-                </div>
-                <div className="ol__select-list absolute z-10 w-full hidden overflow-y-scroll">
-                  <ul className="max-h-[300px]">
-                    <li
-                      data-item="Light Theme"
-                      className="ol__select-item font-rubik bg-white-2 py-[7.5px] px-[15px] last:rounded-b-[4px] cursor-pointer duration-300 hover:bg-gray-3"
-                    >
-                      Light Theme
-                    </li>
-                    <li
-                      data-item="Dark Theme"
-                      className="ol__select-item font-rubik bg-white-2 py-[7.5px] px-[15px] last:rounded-b-[4px] cursor-pointer duration-300 hover:bg-gray-3"
-                    >
-                      Dark Theme
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="md-1100:mt-[25px]">
-              <h3 className="font-rubik text-black-1">Звуки клавиш</h3>
-              <div id="sound" className="ol__select relative mt-[10px]">
-                <div className="ol__select-top bg-white-2 flex items-center justify-between py-[7.5px] px-[15px] rounded-[5px] cursor-pointer">
-                  <h3 className="ol__select-active font-rubik">Wood</h3>
-                  <FontAwesomeIcon icon={faSortUp} className="text-black-1" />
-                </div>
-                <div className="ol__select-list absolute z-10 w-full hidden overflow-y-scroll">
-                  <ul className="max-h-[300px]">
-                    {[...new Array(10)].map((_, index) => {
-                      return (
-                        <li
-                          key={index}
-                          data-item={index}
-                          className="ol__select-item font-rubik bg-white-2 py-[7.5px] px-[15px] last:rounded-b-[4px] cursor-pointer duration-300 hover:bg-gray-3"
-                        >
-                          Wood {index}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div> */}
+
           <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-1000:block">
             <InputSlider
               title="Громкость при нажатии"
@@ -153,52 +130,6 @@ const Setting = () => {
               min={0}
               max={100}
             />
-
-            {/* <div>
-              <h3 className="font-rubik text-black-1">
-                Ширина листа <span className="paper_width text-gray-3">(90%)</span>
-              </h3>
-              <div className="mt-[10px]">
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  defaultValue="90"
-                  className="slider slider__paper-width"
-                  id="mySlider"
-                />
-              </div>
-            </div>
-            <div>
-              <h3 className="font-rubik text-black-1">
-                Размер шрифта <span className="font_size text-gray-3">(16px)</span>
-              </h3>
-              <div className="mt-[10px]">
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  defaultValue="16"
-                  className="slider slider__font-size"
-                  id="mySlider"
-                />
-              </div>
-            </div>
-            <div className="volume_click">
-              <h3 className="font-rubik text-black-1">
-                Громкость при нажатии <span className="volume_click text-gray-3">(30%)</span>
-              </h3>
-              <div className="mt-[10px]">
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  defaultValue="30"
-                  className="slider slider__volume-click"
-                  id="mySlider"
-                />
-              </div>
-            </div> */}
           </div>
           {/* <div className="mt-[25px] flex items-center">
             <h3 className="font-rubik text-black-1">Показывать рамку</h3>
