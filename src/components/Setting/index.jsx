@@ -11,6 +11,7 @@ import {
   setActiveBackground,
   setSoundName,
   setTheme,
+  setVolumeClick,
 } from '@/redux/slices/SettingSlice';
 import InputSlider from '@/components/Setting/InputSlider';
 
@@ -39,6 +40,8 @@ const Setting = () => {
     utils.parseLocalStorage('brightness') !== undefined ? utils.parseLocalStorage('brightness') : state.brightness;
   const activeSound = localStorage.getItem('sound_name') || state.soundName;
   const activeTheme = localStorage.getItem('theme_name') || state.themeName;
+  const volumeClickValue =
+    utils.parseLocalStorage('volume_click') !== undefined ? utils.parseLocalStorage('volume_click') : state.volumeClick;
 
   const sounds = [
     'Wood',
@@ -141,9 +144,17 @@ const Setting = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-1000:block">
-            <div>
+            <InputSlider
+              title="Громкость при нажатии"
+              onChange={(e) => handleInputValue(e.target.value, setVolumeClick, 'volume_click')}
+              value={volumeClickValue}
+              min={0}
+              max={100}
+            />
+
+            {/* <div>
               <h3 className="font-rubik text-black-1">
                 Ширина листа <span className="paper_width text-gray-3">(90%)</span>
               </h3>
@@ -187,9 +198,9 @@ const Setting = () => {
                   id="mySlider"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
-          <div className="mt-[25px] flex items-center">
+          {/* <div className="mt-[25px] flex items-center">
             <h3 className="font-rubik text-black-1">Показывать рамку</h3>
             <div
               id="show_border"

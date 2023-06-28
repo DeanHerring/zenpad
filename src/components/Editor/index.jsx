@@ -1,6 +1,6 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import '@/styles/main.scss';
 import { Utils } from '@/utils/Utils';
@@ -59,15 +59,18 @@ const Editor = () => {
       e.keyCode !== 8 && e.keyCode !== 32 && e.keyCode !== 13 && playSound(keys[randomNumber]);
     }
   };
-
   const playSound = (sound) => {
     const audio = new Audio(sound);
+
+    audio.volume = volumeClickValue / 100;
     audio.play();
   };
 
   const blurValue = utils.parseLocalStorage('blur') !== undefined ? utils.parseLocalStorage('blur') : state.blur;
   const brightnessValue =
     utils.parseLocalStorage('brightness') !== undefined ? utils.parseLocalStorage('brightness') : state.brightness;
+  const volumeClickValue =
+    utils.parseLocalStorage('volume_click') !== undefined ? utils.parseLocalStorage('volume_click') : state.volumeClick;
   const backgroundImageValue = localStorage.getItem('background_image') || state.activeBackground;
 
   return (
