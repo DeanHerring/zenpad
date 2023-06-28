@@ -4,7 +4,7 @@ import { faXmark, faSortUp, faCheck } from '@fortawesome/free-solid-svg-icons';
 import '@/styles/main.scss';
 import classNames from 'classnames';
 import { background } from '@/images/images';
-import { setShowSetting, setBrightness } from '@/redux/slices/SettingSlice';
+import { setShowSetting, setBrightness, setBlur, setActiveBackground } from '@/redux/slices/SettingSlice';
 import InputSlider from '@/components/Setting/InputSlider';
 
 // Import Swiper React components
@@ -18,11 +18,22 @@ const Setting = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.SettingSlice);
 
-  console.log(state.brightness);
+  const handleInputValue = (value, sliceMethod, storageID) => {
+    dispatch(sliceMethod(value));
+    localStorage.setItem(storageID, value);
+  };
+
+  const brightness =
+    parseInt(localStorage.getItem('brightness')) !== undefined
+      ? parseInt(localStorage.getItem('brightness'))
+      : state.brightness;
+
+  const blur =
+    parseInt(localStorage.getItem('blur')) !== undefined ? parseInt(localStorage.getItem('blur')) : state.blur;
 
   return (
-    <div className={classNames(state.showSetting && 'hidden', 'fixed w-full h-screen z-10 bg-black-2/50')}>
-      <div className="setting__body w-full fixed top-0 h-screen bg-white-1 right-0 md-1000:w-1/2 sm-500:w-full overflow-y-scroll">
+    <div className={classNames(!state.showSetting && 'hidden', 'fixed w-full h-screen z-10 bg-black-2/50')}>
+      <div className="setting__body w-1/3 fixed top-0 h-screen bg-white-1 right-0 md-1000:w-1/2 sm-500:w-full overflow-y-scroll">
         <div onClick={() => dispatch(setShowSetting(false))} className="m-[25px]">
           <FontAwesomeIcon icon={faXmark} className="text-black-1 text-[30px] cursor-pointer" />
         </div>
@@ -177,24 +188,18 @@ const Setting = () => {
           <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-1000:block">
             <InputSlider
               title="Brightness"
-              onChange={(e) => dispatch(setBrightness(e.target.value))}
-              value={`${state.brightness}%`}
+              onChange={(e) => handleInputValue(e.target.value, setBrightness, 'brightness')}
+              value={brightness}
+              min={0}
+              max={100}
             />
-            <div>
-              <h3 className="font-rubik text-black-1">
-                Blur <span className="font_size text-gray-3">(16px)</span>
-              </h3>
-              <div className="mt-[10px]">
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  defaultValue="16"
-                  className="slider slider__background-blur"
-                  id="mySlider"
-                />
-              </div>
-            </div>
+            <InputSlider
+              min={0}
+              max={100}
+              title="Blur"
+              onChange={(e) => handleInputValue(e.target.value, setBlur, 'blur')}
+              value={blur}
+            />
           </div>
         </div>
       </div>

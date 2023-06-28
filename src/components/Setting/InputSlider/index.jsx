@@ -1,14 +1,20 @@
 import Slider from '@mui/material/Slider';
 import './InputSlider.scss';
 
-const InputSlider = ({ title, onChange, value }) => {
+const InputSlider = ({ title, onChange, value, min, max }) => {
   return (
     <div>
-      <h3 className="font-rubik text-black-1">
-        {title} <span className="text-gray-3">({value})</span>
-      </h3>
+      <h3 className="font-rubik text-black-1">{title}</h3>
       <div className="mt-[10px]">
-        <Slider defaultValue={70} aria-label="Small" valueLabelDisplay="auto" step={10} onChange={(e) => onChange(e)} />
+        <Slider
+          min={min}
+          max={max}
+          value={value}
+          aria-label="Small"
+          valueLabelDisplay="auto"
+          step={10}
+          onChange={(e) => onChange(e)}
+        />
       </div>
     </div>
   );

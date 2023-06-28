@@ -2,12 +2,12 @@ import Setting from '@/components/Setting';
 import Actions from '@/components/Actions';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import '@/styles/main.scss';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import '@/styles/main.scss';
 
 const Main = () => {
-  const state = useSelector((state) => state.SettingSlice.activeBackground);
+  const state = useSelector((state) => state.SettingSlice);
 
   let editorRef = useRef(null);
 
@@ -46,22 +46,37 @@ const Main = () => {
     }
   };
 
+  const brightnessValue =
+    parseInt(localStorage.getItem('brightness')) !== undefined
+      ? parseInt(localStorage.getItem('brightness'))
+      : state.brightness;
+
+  const blur =
+    parseInt(localStorage.getItem('blur')) !== undefined ? parseInt(localStorage.getItem('blur')) : state.blur;
+
   return (
     <>
       <Actions />
       <Setting />
 
-      <div
-        style={{ backgroundImage: `url(${state})` }}
-        className="mid w-full min-h-screen bg-white-1 bg-cover bg-no-repeat"
-      >
+      <div className="mid w-full min-h-screen bg-white-1 bg-cover bg-no-repeat">
+        <div className="w-full min-h-screen fixed top-0 left-0">
+          <div
+            style={{
+              backgroundImage: `url(${state.activeBackground})`,
+              filter: `brightness(${brightnessValue}%)`,
+            }}
+            className="w-full h-screen bg-cover bg-no-repeat"
+          ></div>
+          <div style={{ backdropFilter: `blur(${blur}px)` }} className="w-full h-screen fixed top-0 left-0"></div>
+        </div>
         <div className="wallpaper fixed w-full h-full top-0 left-0 bg-cover bg-no-repeat"></div>
         <div className="hidden w-full h-[1px] bg-red-600 fixed top-1/2 -translate-y-1/2"></div>
         <div className="mid-container py-[100px]">
           <ReactQuill
             theme="snow"
             modules={{ toolbar: false }}
-            value="Hello, world"
+            value="Writer something beatiful..."
             onChange={centered}
             onKeyDown={centered}
             onKeyUp={centered}

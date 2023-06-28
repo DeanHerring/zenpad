@@ -4,6 +4,7 @@ const initialState = {
   showSetting: false,
   activeBackground: '/zenpad/src/images/background/bg-1.jpg',
   brightness: 30,
+  blur: 30,
 };
 
 export const SettingSlice = createSlice({
@@ -19,8 +20,11 @@ export const SettingSlice = createSlice({
     setBrightness(state, action) {
       state.brightness = action.payload;
     },
+    setBlur(state, action) {
+      state.blur = action.payload;
+    },
   },
 });
 
-export const { setShowSetting, setActiveBackground, setBrightness } = SettingSlice.actions;
+export const { setShowSetting, setActiveBackground, setBrightness, setBlur } = SettingSlice.actions;
 export default SettingSlice.reducer;
