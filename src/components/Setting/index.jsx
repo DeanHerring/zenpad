@@ -13,6 +13,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
 import 'swiper/css';
 import { useDispatch, useSelector } from 'react-redux';
+import { Utils } from '@/utils/Utils';
+
+const utils = new Utils();
 
 const Setting = () => {
   const dispatch = useDispatch();
@@ -23,13 +26,9 @@ const Setting = () => {
     localStorage.setItem(storageID, value);
   };
 
-  const brightness =
-    parseInt(localStorage.getItem('brightness')) !== undefined
-      ? parseInt(localStorage.getItem('brightness'))
-      : state.brightness;
-
-  const blur =
-    parseInt(localStorage.getItem('blur')) !== undefined ? parseInt(localStorage.getItem('blur')) : state.blur;
+  const blurValue = utils.parseLocalStorage('blur') !== undefined ? utils.parseLocalStorage('blur') : state.blur;
+  const brightnessValue =
+    utils.parseLocalStorage('brightness') !== undefined ? utils.parseLocalStorage('brightness') : state.brightness;
 
   return (
     <div className={classNames(!state.showSetting && 'hidden', 'fixed w-full h-screen z-10 bg-black-2/50')}>
@@ -163,7 +162,10 @@ const Setting = () => {
             <Swiper spaceBetween={50} className="mt-[10px]">
               {background.map((url, index) => {
                 return (
-                  <SwiperSlide key={index} onClick={() => dispatch(setActiveBackground(url))}>
+                  <SwiperSlide
+                    key={index}
+                    onClick={() => handleInputValue(url, setActiveBackground, 'background_image')}
+                  >
                     <div className="slider_background relative">
                       <div
                         style={{ backgroundImage: `url(${url})` }}
@@ -171,7 +173,7 @@ const Setting = () => {
                       ></div>
                       <div
                         className={classNames(
-                          state.activeBackground !== url && 'hidden',
+                          localStorage.getItem('background_image') !== url && 'hidden',
                           'slider_background-overlay absolute top-0 left-0 w-full h-full z-10 bg-black-2/50 rounded-[10px] flex justify-center items-center cursor-pointer',
                         )}
                       >
@@ -189,7 +191,7 @@ const Setting = () => {
             <InputSlider
               title="Brightness"
               onChange={(e) => handleInputValue(e.target.value, setBrightness, 'brightness')}
-              value={brightness}
+              value={brightnessValue}
               min={0}
               max={100}
             />
@@ -198,7 +200,7 @@ const Setting = () => {
               max={100}
               title="Blur"
               onChange={(e) => handleInputValue(e.target.value, setBlur, 'blur')}
-              value={blur}
+              value={blurValue}
             />
           </div>
         </div>
