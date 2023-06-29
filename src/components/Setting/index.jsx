@@ -13,6 +13,7 @@ import {
   setTheme,
   setVolumeClick,
   setText,
+  setOpacity,
 } from '@/redux/slices/SettingSlice';
 import InputSlider from '@/components/Setting/InputSlider';
 
@@ -26,6 +27,8 @@ import { Utils } from '@/utils/Utils';
 import SelectList from '@/components/Setting/SelectList';
 import { useRef } from 'react';
 
+import '@/styles/theme.scss';
+
 const utils = new Utils();
 
 const Setting = () => {
@@ -37,7 +40,9 @@ const Setting = () => {
     dispatch(sliceMethod(value));
     localStorage.setItem(storageID, value);
   };
-  const importFiles = (e) => {
+
+  // Импорт файлов
+  const importFile = (e) => {
     const file = e.target.files[0];
     if (file.name.endsWith('.txt')) {
       const reader = new FileReader();
@@ -58,11 +63,30 @@ const Setting = () => {
     }
   };
 
+  // Экспорт файлов
+  const exportFile = () => {
+    // Надо сейвить принудительно
+
+    const text = localStorage.getItem('text') || state.text;
+
+    let el = document.createElement('a');
+
+    el.href = 'data:attachment/text,' + encodeURI(text);
+    el.target = '_blank';
+    el.download = `${new Date().toLocaleDateString()}.txt`;
+    el.click();
+  };
+
+  // @TODO: Сделать что-то с етим непотребством
   const blurValue = utils.parseLocalStorage('blur') !== undefined ? utils.parseLocalStorage('blur') : state.blur;
+  const opacityValue =
+    utils.parseLocalStorage('opacity') !== undefined ? utils.parseLocalStorage('opacity') : state.opacity;
   const brightnessValue =
     utils.parseLocalStorage('brightness') !== undefined ? utils.parseLocalStorage('brightness') : state.brightness;
+
   const activeSound = localStorage.getItem('sound_name') || state.soundName;
   const activeTheme = localStorage.getItem('theme_name') || state.themeName;
+
   const volumeClickValue =
     utils.parseLocalStorage('volume_click') !== undefined ? utils.parseLocalStorage('volume_click') : state.volumeClick;
 
@@ -82,29 +106,39 @@ const Setting = () => {
   ];
   const themes = ['Light Theme', 'Dark Theme'];
 
+  // Ой блять, устал я. До свидания :)
+  // Мы продолжаем :))
+
   return (
     <div className={classNames(!state.showSetting && 'hidden', 'fixed w-full h-screen z-10 bg-black-2/50')}>
-      <div className="setting__body w-1/3 fixed top-0 h-screen bg-white-1 right-0 md-1000:w-1/2 sm-500:w-full overflow-y-scroll">
+      <div className="setting__body w-1/3 fixed top-0 h-screen right-0 md-1000:w-1/2 sm-500:w-full overflow-y-scroll">
         <div onClick={() => dispatch(setShowSetting(false))} className="m-[25px]">
-          <FontAwesomeIcon icon={faXmark} className="text-black-1 text-[30px] cursor-pointer" />
+          <FontAwesomeIcon icon={faXmark} className="setting_close text-[30px] cursor-pointer" />
         </div>
         <div className="m-[25px]">
           <header>
-            <h1 className="font-rubik font-medium text-[32px] text-black-1">Настройки</h1>
+            <h1 className="setting_title font-rubik font-medium text-[32px]">Настройки</h1>
           </header>
+
+          {/* Импорт и экспорт */}
           <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-750:block">
-            <input type="file" ref={importFilesRef} className="hidden" onChange={(e) => importFiles(e)} />
+            <input type="file" ref={importFilesRef} className="hidden" onChange={(e) => importFile(e)} />
             <button
               onClick={() => importFilesRef.current.click()}
-              className="bg-white-2 rounded-[5px] text-black-1 py-[7.5px] px-[15px] font-rubik duration-300 hover:text-black-1 hover:bg-gray-3 md-750:w-full"
+              className="setting_button rounded-[5px] py-[7.5px] px-[15px] font-rubik duration-300 md-750:w-full"
             >
               Import
             </button>
-            <button className="bg-white-2 rounded-[5px] text-black-1 py-[7.5px] px-[15px] font-rubik duration-300 hover:text-black-1 hover:bg-gray-3 flex items-center justify-center md-750:w-full md-750:mt-[10px]">
+            <button
+              onClick={exportFile}
+              className="setting_button rounded-[5px] py-[7.5px] px-[15px] font-rubik duration-300 flex items-center justify-center md-750:w-full md-750:mt-[10px]"
+            >
               Export
-              <h3 className="font-rubik text-gray-2 ml-[5px]">(14kb)</h3>
+              <h3 className="font-rubik text-gray-2 ml-[5px]">({parseInt(state.textSize)}KB)</h3>
             </button>
           </div>
+
+          {/* Звуки клавиш и цветовая тема */}
           <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-1100:block ">
             <SelectList
               title="Звуки клавиш"
@@ -113,15 +147,16 @@ const Setting = () => {
               sliceMethod={setSoundName}
               storageID="sound_name"
             />
-            <SelectList
+            {/* <SelectList
               title="Цветовая тема"
               activeValue={activeTheme}
               items={themes}
               sliceMethod={setTheme}
               storageID="theme_name"
-            />
+            /> */}
           </div>
 
+          {/* Громкость при нажатии */}
           <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-1000:block">
             <InputSlider
               title="Громкость при нажатии"
@@ -131,6 +166,7 @@ const Setting = () => {
               max={100}
             />
           </div>
+
           {/* <div className="mt-[25px] flex items-center">
             <h3 className="font-rubik text-black-1">Показывать рамку</h3>
             <div
@@ -140,6 +176,7 @@ const Setting = () => {
               <FontAwesomeIcon icon={faCheck} className="text-white-1" />
             </div>
           </div> */}
+
           {/* Задний фон */}
           <div className="mt-[25px]">
             <h3 className="font-rubik text-black-1">Задний фон</h3>
@@ -171,6 +208,8 @@ const Setting = () => {
               })}
             </Swiper>
           </div>
+
+          {/* Затемнение и размытие заднего фона */}
           <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-1000:block">
             <InputSlider
               title="Brightness"

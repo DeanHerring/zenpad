@@ -5,10 +5,12 @@ const initialState = {
   activeBackground: '/zenpad/src/images/background/bg-1.jpg',
   brightness: 30,
   blur: 30,
+  opacity: 30,
   soundName: 'Wood',
-  themeName: 'Light Theme',
+  theme: 1,
   volumeClick: 30,
   text: 'Макс делает реклас',
+  textSize: 0,
 };
 
 export const SettingSlice = createSlice({
@@ -31,13 +33,19 @@ export const SettingSlice = createSlice({
       state.soundName = action.payload;
     },
     setTheme(state, action) {
-      state.themeName = action.payload;
+      state.theme = action.payload;
     },
     setVolumeClick(state, action) {
       state.volumeClick = action.payload;
     },
     setText(state, action) {
       state.text = action.payload;
+    },
+    setTextSize(state, action) {
+      state.textSize = action.payload;
+    },
+    setOpacity(state, action) {
+      state.opacity = action.payload;
     },
   },
 });
@@ -51,5 +59,7 @@ export const {
   setTheme,
   setVolumeClick,
   setText,
+  setTextSize,
+  setOpacity,
 } = SettingSlice.actions;
 export default SettingSlice.reducer;

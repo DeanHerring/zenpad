@@ -1,15 +1,20 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import '@/styles/main.scss';
 import { Utils } from '@/utils/Utils';
 import { sounds } from '@/sounds/sound';
 
+import '@/styles/theme.scss';
+
 const utils = new Utils();
 
 const Editor = () => {
+  const dispatch = useDispatch();
   const state = useSelector((state) => state.SettingSlice);
+
+  // Ну вот шо за хуйня? Почему оно не меняется?
 
   let editorRef = useRef(null);
 
@@ -69,20 +74,42 @@ const Editor = () => {
   const blurValue = utils.parseLocalStorage('blur') !== undefined ? utils.parseLocalStorage('blur') : state.blur;
   const brightnessValue =
     utils.parseLocalStorage('brightness') !== undefined ? utils.parseLocalStorage('brightness') : state.brightness;
+
   const volumeClickValue =
     utils.parseLocalStorage('volume_click') !== undefined ? utils.parseLocalStorage('volume_click') : state.volumeClick;
   const backgroundImageValue = localStorage.getItem('background_image') || state.activeBackground;
 
+  // Load Text
   useEffect(() => {
     if (editorRef.editor) {
       const text = localStorage.getItem('text') || state.text;
-
       editorRef.editor.setText(text);
     }
   }, [editorRef, localStorage.getItem('text'), state.text]);
 
+  // Auto Save
+  // useEffect(() => {
+  //   const saveText = () => {
+  //     if (editorRef && editorRef.editor) {
+  //       const text = editorRef.editor.getText();
+  //       const textSizeKB = utf8ByteLength(text) / 1024;
+
+  //       dispatch(setTextSize(textSizeKB));
+  //       localStorage.setItem('text', text);
+
+  //       console.log('AUTO SAVE');
+  //     }
+  //   };
+
+  //   const intervalId = setInterval(saveText, 10000);
+
+  //   return () => {
+  //     clearInterval(intervalId);
+  //   };
+  // }, [editorRef]);
+
   return (
-    <div className="mid w-full min-h-screen bg-black-2 bg-cover bg-no-repeat">
+    <div className="mid w-full min-h-screen bg-cover bg-no-repeat">
       <div className="w-full min-h-screen fixed top-0 left-0">
         <div
           style={
@@ -109,7 +136,9 @@ const Editor = () => {
           onKeyUp={centered}
           className="font-ysa text-white-2 text-7xl max-w-[90%] w-[1300px] mx-auto"
           ref={(el) => {
-            editorRef = el;
+            if (el) {
+              editorRef = el;
+            }
           }}
         />
       </div>

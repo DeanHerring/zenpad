@@ -1,0 +1,112 @@
+:root {
+  // White
+  --white-1: #fff;
+  --white-2: #f4f4f4;
+
+  // Black
+  --black-1: #000;
+  --black-2: #222;
+  --black-3: #1a1c1e;
+  --black-4: #41464a;
+  --black-5: #202325;
+
+  // Gray
+  --gray-1: #797979;
+  --gray-2: #979797;
+  --gray-3: #d2d2d2;
+
+  // Yellow
+  --yellow-1: #efcd75;
+
+  // Opacity:
+  --white-1-opacity-50: rgba(#fff, 0.5);
+}
+
+.theme-light {
+  --mid: var(--white-1;);
+  --editor-text: var(--black-2);
+  --setting-body: var(--white-1);
+  --setting-title: var(--black-2);
+  --setting-text: var(--black-2);
+  --setting-button: var(--white-2);
+  --setting-button-hover: var(--gray-3);
+  --setting-select-button: var(--yellow-1);
+}
+
+.theme-dark {
+  --mid: var(--black-3);
+  --action: var(--white-2);
+  --editor-text: var(--white-2);
+  --setting-body: var(--black-3);
+  --setting-text: var(--white-1);
+  --setting-button: var(--black-4);
+  --setting-button-hover: var(--black-5);
+  --setting-select-button: var(--black-4);
+}
+
+.mid {
+  background: var(--mid);
+}
+
+.action_wrapper {
+  &:hover {
+    background-color: var(--white-1);
+    .action_icon {
+      transition: none;
+      color: var(--black-2);
+    }
+  }
+  .action_icon {
+    color: var(--action);
+  }
+}
+
+.ql-editor {
+  p {
+    color: var(--editor-text) !important;
+  }
+}
+
+.setting__body {
+  background-color: var(--setting-body) !important;
+  .setting_title {
+    color: var(--setting-text);
+  }
+  .setting_close {
+    color: var(--setting-text);
+  }
+  .setting_button {
+    background-color: var(--setting-button);
+    color: var(--setting-text);
+    &:hover {
+      background-color: var(--setting-button-hover);
+    }
+  }
+  .select_title {
+    color: var(--setting-text);
+  }
+  .MuiSelect-select {
+    background-color: var(--setting-button);
+    color: var(--setting-text);
+  }
+  .MuiSvgIcon-root {
+    color: var(--setting-text);
+  }
+  .input_slider-title {
+    color: var(--setting-text);
+  }
+  .MuiSlider-root {
+    .MuiSlider-track {
+      background-color: var(--setting-select-button);
+    }
+    .MuiSlider-thumb {
+      background-color: var(--setting-select-button);
+      &.Mui-focusVisible {
+        box-shadow: 0px 0px 0px 8px rgba(var(--setting-select-button), 0.16);
+      }
+      &:hover {
+        box-shadow: 0px 0px 0px 8px rgba(var(--setting-select-button), 0.16);
+      }
+    }
+  }
+}

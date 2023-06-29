@@ -4,7 +4,7 @@ import './InputSlider.scss';
 const InputSlider = ({ title, onChange, value, min, max }) => {
   return (
     <div>
-      <h3 className="font-rubik text-black-1">{title}</h3>
+      <h3 className="input_slider-title font-rubik">{title}</h3>
       <div className="mt-[10px]">
         <Slider
           min={min}
