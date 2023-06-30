@@ -109,6 +109,21 @@ const Setting = () => {
       localStorage.setItem('background_image', url);
     }
   };
+  const customBackground = () => {
+    const url = prompt('Вставьте ссылку на изображение');
+
+    if (url) {
+      const image = new Image();
+
+      image.addEventListener('load', () => {
+        localStorage.setItem('background_image', url);
+        dispatch(setActiveBackground(url));
+      });
+      image.addEventListener('error', () => alert('Ты блять дурак?'));
+
+      image.src = url;
+    }
+  };
 
   return (
     <div className={classNames(!state.showSetting && 'hidden', 'fixed w-full h-screen z-10 bg-black-2/50')}>
@@ -206,6 +221,16 @@ const Setting = () => {
                 );
               })}
             </Swiper>
+          </div>
+
+          {/* Импорт и экспорт */}
+          <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-750:block">
+            <button
+              onClick={() => customBackground()}
+              className="setting_button rounded-[5px] py-[7.5px] px-[15px] font-rubik duration-300 md-750:w-full"
+            >
+              Custom Background
+            </button>
           </div>
 
           {/* Затемнение и размытие заднего фона */}

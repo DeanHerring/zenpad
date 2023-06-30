@@ -111,7 +111,7 @@ const Editor = () => {
         <div
           style={
             localStorage.getItem('background_image') && {
-              backgroundImage: `url(${backgroundImageValue})`,
+              backgroundImage: `url('${backgroundImageValue}')`,
               filter: `brightness(${brightnessValue}%)`,
             }
           }
