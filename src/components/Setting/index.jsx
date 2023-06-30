@@ -10,10 +10,8 @@ import {
   setBlur,
   setActiveBackground,
   setSoundName,
-  setTheme,
   setVolumeClick,
   setText,
-  setOpacity,
 } from '@/redux/slices/SettingSlice';
 import InputSlider from '@/components/Setting/InputSlider';
 
@@ -21,12 +19,12 @@ import InputSlider from '@/components/Setting/InputSlider';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
-import 'swiper/css';
 import { useDispatch, useSelector } from 'react-redux';
 import { Utils } from '@/utils/Utils';
 import SelectList from '@/components/Setting/SelectList';
 import { useRef } from 'react';
 
+import 'swiper/css';
 import '@/styles/theme.scss';
 
 const utils = new Utils();
@@ -79,13 +77,10 @@ const Setting = () => {
 
   // @TODO: Сделать что-то с етим непотребством
   const blurValue = utils.parseLocalStorage('blur') !== undefined ? utils.parseLocalStorage('blur') : state.blur;
-  const opacityValue =
-    utils.parseLocalStorage('opacity') !== undefined ? utils.parseLocalStorage('opacity') : state.opacity;
   const brightnessValue =
     utils.parseLocalStorage('brightness') !== undefined ? utils.parseLocalStorage('brightness') : state.brightness;
 
   const activeSound = localStorage.getItem('sound_name') || state.soundName;
-  const activeTheme = localStorage.getItem('theme_name') || state.themeName;
 
   const volumeClickValue =
     utils.parseLocalStorage('volume_click') !== undefined ? utils.parseLocalStorage('volume_click') : state.volumeClick;
@@ -104,10 +99,16 @@ const Setting = () => {
     'Springs',
     'Toy Piano',
   ];
-  const themes = ['Light Theme', 'Dark Theme'];
 
-  // Ой блять, устал я. До свидания :)
-  // Мы продолжаем :))
+  const changeBackground = (url) => {
+    if (url === state.activeBackground) {
+      dispatch(setActiveBackground(''));
+      localStorage.removeItem('background_image');
+    } else {
+      dispatch(setActiveBackground(url));
+      localStorage.setItem('background_image', url);
+    }
+  };
 
   return (
     <div className={classNames(!state.showSetting && 'hidden', 'fixed w-full h-screen z-10 bg-black-2/50')}>
@@ -179,18 +180,16 @@ const Setting = () => {
 
           {/* Задний фон */}
           <div className="mt-[25px]">
-            <h3 className="font-rubik text-black-1">Задний фон</h3>
-            <Swiper spaceBetween={50} className="mt-[10px]">
+            <h3 className="background_title font-rubik text-black-1">Задний фон</h3>
+
+            <Swiper spaceBetween={10} slidesPerView="auto" className="mt-[10px]">
               {background.map((url, index) => {
                 return (
-                  <SwiperSlide
-                    key={index}
-                    onClick={() => handleInputValue(url, setActiveBackground, 'background_image')}
-                  >
+                  <SwiperSlide key={index} onClick={() => changeBackground(url)} className="w-[300px] h-[200px]">
                     <div className="slider_background relative">
                       <div
                         style={{ backgroundImage: `url(${url})` }}
-                        className="bg-1 w-full h-[350px] bg-cover rounded-[10px] cursor-pointer"
+                        className="bg-1 w-[300px] h-[200px] bg-cover rounded-[10px] cursor-pointer"
                       ></div>
                       <div
                         className={classNames(

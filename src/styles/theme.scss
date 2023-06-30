@@ -109,4 +109,13 @@
       }
     }
   }
+  .background_title {
+    color: var(--setting-text);
+  }
+  .slider_background {
+    background-color: var(--setting-button);
+    .remove_background-title {
+      color: var(--setting-text);
+    }
+  }
 }

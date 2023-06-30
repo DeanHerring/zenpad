@@ -1,20 +1,17 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import '@/styles/main.scss';
+import { useSelector } from 'react-redux';
 import { Utils } from '@/utils/Utils';
 import { sounds } from '@/sounds/sound';
 
+import '@/styles/main.scss';
 import '@/styles/theme.scss';
 
 const utils = new Utils();
 
 const Editor = () => {
-  const dispatch = useDispatch();
   const state = useSelector((state) => state.SettingSlice);
-
-  // Ну вот шо за хуйня? Почему оно не меняется?
 
   let editorRef = useRef(null);
 

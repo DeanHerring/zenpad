@@ -2,12 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   showSetting: false,
-  activeBackground: '/zenpad/src/images/background/bg-1.jpg',
+  activeBackground: '',
   brightness: 30,
   blur: 30,
   opacity: 30,
   soundName: 'Wood',
-  theme: 1,
+  theme: 0,
   volumeClick: 30,
   text: 'Макс делает реклас',
   textSize: 0,
