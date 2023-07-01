@@ -8,9 +8,10 @@ const initialState = {
   opacity: 30,
   soundName: 'Wood',
   theme: 0,
-  volumeClick: 30,
+  volumeClick: 100,
   text: 'Макс делает реклас',
   textSize: 0,
+  showInterface: true,
 };
 
 export const SettingSlice = createSlice({
@@ -47,6 +48,9 @@ export const SettingSlice = createSlice({
     setOpacity(state, action) {
       state.opacity = action.payload;
     },
+    setShowInterface(state, action) {
+      state.showInterface = action.payload;
+    },
   },
 });
 
@@ -61,5 +65,6 @@ export const {
   setText,
   setTextSize,
   setOpacity,
+  setShowInterface,
 } = SettingSlice.actions;
 export default SettingSlice.reducer;

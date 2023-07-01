@@ -1,6 +1,7 @@
 .ql-container {
   &.ql-snow {
-    border: 0 !important;
+    // border: 0 !important;
+    padding-bottom: 100vh;
   }
   .ql-editor {
     p {

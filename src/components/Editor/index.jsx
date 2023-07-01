@@ -1,16 +1,18 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Utils } from '@/utils/Utils';
 import { sounds } from '@/sounds/sound';
 
 import '@/styles/main.scss';
 import '@/styles/theme.scss';
+import { setShowInterface } from '@/redux/slices/SettingSlice';
 
 const utils = new Utils();
 
 const Editor = () => {
+  const dispatch = useDispatch();
   const state = useSelector((state) => state.SettingSlice);
 
   let editorRef = useRef(null);
@@ -48,18 +50,23 @@ const Editor = () => {
       scrollToElement(currentNode, 'center');
     }
   };
-  const handleSound = (e) => {
+  const initSound = (e) => {
     if (localStorage.getItem('sound_name')) {
-      const soundName = localStorage.getItem('sound_name').replace(/\s/g, '').toLowerCase();
-      const { backspace, key_0, key_1, key_2, key_3, key_4, key_5, key_6, key_return, spacebar } = sounds[soundName];
-      const randomNumber = Math.floor(Math.random() * 7);
-      const keys = [key_0, key_1, key_2, key_3, key_4, key_5, key_6];
-
-      e.keyCode === 8 && playSound(backspace);
-      e.keyCode === 32 && playSound(spacebar);
-      e.keyCode === 13 && playSound(key_return);
-      e.keyCode !== 8 && e.keyCode !== 32 && e.keyCode !== 13 && playSound(keys[randomNumber]);
+      handleSound(e, localStorage.getItem('sound_name').replace(/\s/g, '').toLowerCase());
     }
+    if (state.soundName) {
+      handleSound(e, state.soundName.replace(/\s/g, '').toLowerCase());
+    }
+  };
+  const handleSound = (e, soundName) => {
+    const { backspace, key_0, key_1, key_2, key_3, key_4, key_5, key_6, key_return, spacebar } = sounds[soundName];
+    const randomNumber = Math.floor(Math.random() * 7);
+    const keys = [key_0, key_1, key_2, key_3, key_4, key_5, key_6];
+
+    e.keyCode === 8 && playSound(backspace);
+    e.keyCode === 32 && playSound(spacebar);
+    e.keyCode === 13 && playSound(key_return);
+    e.keyCode !== 8 && e.keyCode !== 32 && e.keyCode !== 13 && playSound(keys[randomNumber]);
   };
   const playSound = (sound) => {
     const audio = new Audio(sound);
@@ -85,25 +92,23 @@ const Editor = () => {
   }, [editorRef, localStorage.getItem('text'), state.text]);
 
   // Auto Save
-  // useEffect(() => {
-  //   const saveText = () => {
-  //     if (editorRef && editorRef.editor) {
-  //       const text = editorRef.editor.getText();
-  //       const textSizeKB = utf8ByteLength(text) / 1024;
+  useEffect(() => {
+    const saveText = () => {
+      if (editorRef && editorRef.editor) {
+        const text = editorRef.editor.getText();
 
-  //       dispatch(setTextSize(textSizeKB));
-  //       localStorage.setItem('text', text);
+        localStorage.setItem('text', text);
+      }
+    };
 
-  //       console.log('AUTO SAVE');
-  //     }
-  //   };
+    const intervalId = setInterval(saveText, 10000);
 
-  //   const intervalId = setInterval(saveText, 10000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [editorRef]);
 
-  //   return () => {
-  //     clearInterval(intervalId);
-  //   };
-  // }, [editorRef]);
+  console.log('RE-RENDER');
 
   return (
     <div className="mid w-full min-h-screen bg-cover bg-no-repeat">
@@ -128,10 +133,12 @@ const Editor = () => {
           onChange={centered}
           onKeyDown={(e) => {
             centered();
-            handleSound(e);
+            initSound(e);
           }}
           onKeyUp={centered}
-          className="font-ysa text-white-2 text-7xl max-w-[90%] w-[1300px] mx-auto"
+          onFocus={() => dispatch(setShowInterface(false))}
+          onBlur={() => dispatch(setShowInterface(true))}
+          className="font-ysa text-white-2 text-7xl max-w-[90%] w-[1000px] mx-auto"
           ref={(el) => {
             if (el) {
               editorRef = el;
