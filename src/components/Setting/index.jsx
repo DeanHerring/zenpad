@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Utils } from '@/utils/Utils';
 import SelectList from '@/components/Setting/SelectList';
 import { useRef } from 'react';
+import Checkbox from '@/components/Setting/Checkbox';
 
 import 'swiper/css';
 import '@/styles/theme.scss';
@@ -223,7 +224,7 @@ const Setting = () => {
             </Swiper>
           </div>
 
-          {/* Импорт и экспорт */}
+          {/* Кастомный беграунд */}
           <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-750:block">
             <button
               onClick={() => customBackground()}
@@ -250,6 +251,9 @@ const Setting = () => {
               value={blurValue}
             />
           </div>
+
+          {/* Показать/Скрыть рамку */}
+          <Checkbox title="Показывать рамку" />
         </div>
       </div>
     </div>

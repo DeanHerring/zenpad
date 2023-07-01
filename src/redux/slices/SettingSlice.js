@@ -12,6 +12,7 @@ const initialState = {
   text: 'Макс делает реклас',
   textSize: 0,
   showInterface: true,
+  showBorder: false,
 };
 
 export const SettingSlice = createSlice({
@@ -51,6 +52,9 @@ export const SettingSlice = createSlice({
     setShowInterface(state, action) {
       state.showInterface = action.payload;
     },
+    setShowBorder(state, action) {
+      state.showBorder = action.payload;
+    },
   },
 });
 
@@ -66,5 +70,6 @@ export const {
   setTextSize,
   setOpacity,
   setShowInterface,
+  setShowBorder,
 } = SettingSlice.actions;
 export default SettingSlice.reducer;

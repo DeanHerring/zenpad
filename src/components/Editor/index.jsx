@@ -8,6 +8,7 @@ import { sounds } from '@/sounds/sound';
 import '@/styles/main.scss';
 import '@/styles/theme.scss';
 import { setShowInterface } from '@/redux/slices/SettingSlice';
+import classNames from 'classnames';
 
 const utils = new Utils();
 
@@ -82,6 +83,7 @@ const Editor = () => {
   const volumeClickValue =
     utils.parseLocalStorage('volume_click') !== undefined ? utils.parseLocalStorage('volume_click') : state.volumeClick;
   const backgroundImageValue = localStorage.getItem('background_image') || state.activeBackground;
+  const showBorder = JSON.parse(localStorage.getItem('show_border')) || state.showBorder;
 
   // Load Text
   useEffect(() => {
@@ -107,8 +109,6 @@ const Editor = () => {
       clearInterval(intervalId);
     };
   }, [editorRef]);
-
-  console.log('RE-RENDER');
 
   return (
     <div className="mid w-full min-h-screen bg-cover bg-no-repeat">
@@ -138,7 +138,10 @@ const Editor = () => {
           onKeyUp={centered}
           onFocus={() => dispatch(setShowInterface(false))}
           onBlur={() => dispatch(setShowInterface(true))}
-          className="font-ysa text-white-2 text-7xl max-w-[90%] w-[1000px] mx-auto"
+          className={classNames(
+            showBorder && 'show_border',
+            'font-ysa text-white-2 text-7xl max-w-[90%] w-[1000px] mx-auto',
+          )}
           ref={(el) => {
             if (el) {
               editorRef = el;

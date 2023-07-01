@@ -1,15 +1,24 @@
-.ql-container {
-  &.ql-snow {
-    // border: 0 !important;
-    padding-bottom: 100vh;
+.quill {
+  &.show_border {
+    .ql-container {
+      &.ql-snow {
+        border: 1px solid #aaa !important;
+      }
+    }
   }
-  .ql-editor {
-    p {
-      font-size: 1.5rem;
-      line-height: 2rem;
-      font-family: 'Ysabeau Office', sans-serif;
-      // color: #f4f4f4;
-      color: #222;
+  .ql-container {
+    &.ql-snow {
+      border: 0 !important;
+      padding-bottom: 100vh;
+    }
+    .ql-editor {
+      p {
+        font-size: 1.5rem;
+        line-height: 2rem;
+        font-family: 'Ysabeau Office', sans-serif;
+        // color: #f4f4f4;
+        color: #222;
+      }
     }
   }
 }
