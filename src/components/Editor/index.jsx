@@ -1,7 +1,7 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { memo, useEffect, useRef } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { Utils } from '@/utils/Utils';
 import { sounds } from '@/sounds/sound';
 
@@ -14,7 +14,17 @@ const utils = new Utils();
 
 const Editor = () => {
   const dispatch = useDispatch();
-  const state = useSelector((state) => state.SettingSlice);
+  const state = useSelector((state) => {
+    return {
+      soundName: state.SettingSlice.soundName,
+      blur: state.SettingSlice.blur,
+      brightness: state.SettingSlice.brightness,
+      volumeClick: state.SettingSlice.volumeClick,
+      activeBackground: state.SettingSlice.activeBackground,
+      showBorder: state.SettingSlice.showBorder,
+      text: state.SettingSlice.text,
+    };
+  }, shallowEqual);
 
   let editorRef = useRef(null);
 
@@ -75,6 +85,13 @@ const Editor = () => {
     audio.volume = volumeClickValue / 100;
     audio.play();
   };
+  const save = () => {
+    if (editorRef && editorRef.editor) {
+      const text = editorRef.editor.getText();
+
+      localStorage.setItem('text', text);
+    }
+  };
 
   const blurValue = utils.parseLocalStorage('blur') !== undefined ? utils.parseLocalStorage('blur') : state.blur;
   const brightnessValue =
@@ -95,20 +112,20 @@ const Editor = () => {
 
   // Auto Save
   useEffect(() => {
-    const saveText = () => {
-      if (editorRef && editorRef.editor) {
-        const text = editorRef.editor.getText();
-
-        localStorage.setItem('text', text);
-      }
-    };
-
-    const intervalId = setInterval(saveText, 10000);
+    const intervalId = setInterval(save, 10000);
 
     return () => {
       clearInterval(intervalId);
     };
   }, [editorRef]);
+
+  window.addEventListener('beforeunload', (e) => {
+    e.preventDefault();
+
+    save();
+  });
+
+  console.log('RE-RENDER: EDITOR');
 
   return (
     <div className="mid w-full min-h-screen bg-cover bg-no-repeat">
@@ -130,12 +147,11 @@ const Editor = () => {
         <ReactQuill
           theme="snow"
           modules={{ toolbar: false }}
-          onChange={centered}
           onKeyDown={(e) => {
             centered();
             initSound(e);
           }}
-          onKeyUp={centered}
+          onKeyUp={() => centered()}
           onFocus={() => dispatch(setShowInterface(false))}
           onBlur={() => dispatch(setShowInterface(true))}
           className={classNames(
@@ -153,4 +169,4 @@ const Editor = () => {
   );
 };
 
-export default Editor;
+export default memo(Editor);

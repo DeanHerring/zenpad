@@ -4,10 +4,13 @@ import { setShowSetting, setTheme } from '@/redux/slices/SettingSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 import classNames from 'classnames';
+import { memo } from 'react';
 
 const Actions = () => {
   const dispatch = useDispatch();
   const state = useSelector((state) => state.SettingSlice);
+
+  console.log('RE-RENDER: ACTIONS');
 
   return (
     <div className={classNames(!state.showInterface && 'hidden', 'flex fixed top-[25px] left-[25px] z-10')}>
@@ -35,4 +38,4 @@ const Actions = () => {
   );
 };
 
-export default Actions;
+export default memo(Actions);
