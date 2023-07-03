@@ -77,14 +77,11 @@ const Setting = () => {
   };
 
   // @TODO: Сделать что-то с етим непотребством
-  const blurValue = utils.parseLocalStorage('blur') !== undefined ? utils.parseLocalStorage('blur') : state.blur;
-  const brightnessValue =
-    utils.parseLocalStorage('brightness') !== undefined ? utils.parseLocalStorage('brightness') : state.brightness;
+  const blur = utils.readLocalStorage('blur', state.blur);
+  const brightness = utils.readLocalStorage('brightness', state.brightness);
+  const volumeClick = utils.readLocalStorage('volume_click', state.volumeClick);
 
   const activeSound = localStorage.getItem('sound_name') || state.soundName;
-
-  const volumeClickValue =
-    utils.parseLocalStorage('volume_click') !== undefined ? utils.parseLocalStorage('volume_click') : state.volumeClick;
 
   const sounds = [
     'Wood',
@@ -178,7 +175,7 @@ const Setting = () => {
             <InputSlider
               title="Громкость при нажатии"
               onChange={(e) => handleInputValue(e.target.value, setVolumeClick, 'volume_click')}
-              value={volumeClickValue}
+              value={volumeClick}
               min={0}
               max={100}
             />
@@ -239,7 +236,7 @@ const Setting = () => {
             <InputSlider
               title="Brightness"
               onChange={(e) => handleInputValue(e.target.value, setBrightness, 'brightness')}
-              value={brightnessValue}
+              value={brightness}
               min={0}
               max={100}
             />
@@ -248,7 +245,7 @@ const Setting = () => {
               max={100}
               title="Blur"
               onChange={(e) => handleInputValue(e.target.value, setBlur, 'blur')}
-              value={blurValue}
+              value={blur}
             />
           </div>
 

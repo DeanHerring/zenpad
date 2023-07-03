@@ -1,7 +1,15 @@
 export class Utils {
-  parseLocalStorage(storageID) {
-    if (localStorage.getItem(storageID) && typeof JSON.parse(localStorage.getItem(storageID) === 'number')) {
-      return parseInt(localStorage.getItem(storageID));
+  readLocalStorage(storageID, defaultValue) {
+    const storedValue = localStorage.getItem(storageID);
+
+    if (storedValue && typeof JSON.parse(storedValue) === 'number') {
+      return JSON.parse(storedValue);
     }
+
+    return defaultValue;
+  }
+
+  getRandomIntInRange(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }
