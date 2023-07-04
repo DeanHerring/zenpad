@@ -20,11 +20,13 @@ const TextEditor = () => {
       soundName: state.SettingSlice.soundName,
       showBorder: state.SettingSlice.showBorder,
       volumeClick: state.SettingSlice.volumeClick,
+      fontSize: state.SettingSlice.fontSize,
     };
   }, shallowEqual);
 
   const showBorder = JSON.parse(localStorage.getItem('show_border')) ?? state.showBorder;
   const volumeClick = utils.readLocalStorage('volume_click', state.volumeClick);
+  const fontSize = utils.readLocalStorage('font_size', state.fontSize);
 
   let editorRef = useRef(null);
 
@@ -132,6 +134,17 @@ const TextEditor = () => {
       window.removeEventListener('beforeunload', saveBeforeExit);
     };
   }, []);
+
+  useEffect(() => {
+    if (editorRef && editorRef.editor) {
+      const pArr = editorRef.editor.root.children;
+      const defaultFontSize = 24;
+
+      Object.values(pArr).forEach((p) => {
+        p.style.fontSize = `${(fontSize / 100) * defaultFontSize}px`;
+      });
+    }
+  }, [fontSize]);
 
   return (
     <div className="mid-container py-[100px]">

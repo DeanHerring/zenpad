@@ -7,18 +7,22 @@ const initialState = {
   blur: 30,
   opacity: 30,
   soundName: 'Wood',
-  theme: 0,
+  theme: 'light',
   volumeClick: 100,
   text: 'Макс делает реклас',
   textSize: 0,
   showInterface: true,
   showBorder: false,
+  fontSize: 100,
 };
 
 export const SettingSlice = createSlice({
   name: 'Setting',
   initialState,
   reducers: {
+    setFontSize(state, action) {
+      state.fontSize = action.payload;
+    },
     setShowSetting(state, action) {
       state.showSetting = action.payload;
     },
@@ -36,6 +40,7 @@ export const SettingSlice = createSlice({
     },
     setTheme(state, action) {
       state.theme = action.payload;
+      localStorage.setItem('theme', action.payload);
     },
     setVolumeClick(state, action) {
       state.volumeClick = action.payload;
@@ -71,5 +76,6 @@ export const {
   setOpacity,
   setShowInterface,
   setShowBorder,
+  setFontSize,
 } = SettingSlice.actions;
 export default SettingSlice.reducer;

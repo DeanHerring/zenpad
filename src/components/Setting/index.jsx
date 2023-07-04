@@ -27,6 +27,7 @@ import Checkbox from '@/components/Setting/Checkbox';
 
 import 'swiper/css';
 import '@/styles/theme.scss';
+import { setFontSize } from '../../redux/slices/SettingSlice.js';
 
 const utils = new Utils();
 
@@ -80,6 +81,7 @@ const Setting = () => {
   const blur = utils.readLocalStorage('blur', state.blur);
   const brightness = utils.readLocalStorage('brightness', state.brightness);
   const volumeClick = utils.readLocalStorage('volume_click', state.volumeClick);
+  const fontSize = utils.readLocalStorage('font_size', state.fontSize);
 
   const activeSound = localStorage.getItem('sound_name') || state.soundName;
 
@@ -246,6 +248,17 @@ const Setting = () => {
               title="Blur"
               onChange={(e) => handleInputValue(e.target.value, setBlur, 'blur')}
               value={blur}
+            />
+          </div>
+
+          {/* Регулировка размера текста */}
+          <div className="mt-[25px] grid grid-cols-2 gap-[10px] md-1000:block">
+            <InputSlider
+              title="Font Size"
+              onChange={(e) => handleInputValue(e.target.value, setFontSize, 'font_size')}
+              value={fontSize}
+              min={80}
+              max={200}
             />
           </div>
 
