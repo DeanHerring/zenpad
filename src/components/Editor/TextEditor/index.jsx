@@ -21,12 +21,14 @@ const TextEditor = () => {
       showBorder: state.SettingSlice.showBorder,
       volumeClick: state.SettingSlice.volumeClick,
       fontSize: state.SettingSlice.fontSize,
+      editorWidth: state.SettingSlice.editorWidth,
     };
   }, shallowEqual);
 
   const showBorder = JSON.parse(localStorage.getItem('show_border')) ?? state.showBorder;
   const volumeClick = utils.readLocalStorage('volume_click', state.volumeClick);
   const fontSize = utils.readLocalStorage('font_size', state.fontSize);
+  const editorWidth = utils.readLocalStorage('editor_width', state.editorWidth);
 
   let editorRef = useRef(null);
 
@@ -113,6 +115,16 @@ const TextEditor = () => {
     }
   };
 
+  const applyFontSize = () => {
+    const defaultFontSize = 24;
+    const editor = editorRef.editor.root;
+    const pArr = editor.children;
+
+    for (const p of pArr) {
+      p.style.fontSize = `${(fontSize / 100) * defaultFontSize}px`;
+    }
+  };
+
   // Load text
   useEffect(() => {
     if (editorRef.editor) {
@@ -135,16 +147,17 @@ const TextEditor = () => {
     };
   }, []);
 
+  // Update font size and editor width
   useEffect(() => {
     if (editorRef && editorRef.editor) {
-      const pArr = editorRef.editor.root.children;
-      const defaultFontSize = 24;
+      applyFontSize();
 
-      Object.values(pArr).forEach((p) => {
-        p.style.fontSize = `${(fontSize / 100) * defaultFontSize}px`;
-      });
+      const editor = editorRef.editor.root;
+      const root = editor.closest('.quill');
+
+      root.style.width = `${editorWidth}%`;
     }
-  }, [fontSize]);
+  }, [fontSize, editorWidth]);
 
   return (
     <div className="mid-container py-[100px]">

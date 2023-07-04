@@ -8,7 +8,7 @@
   }
   .ql-container {
     &.ql-snow {
-      border: 0 !important;
+      border: 1px solid rgba(0, 0, 0, 0) !important;
       padding-bottom: 100vh;
     }
     .ql-editor {

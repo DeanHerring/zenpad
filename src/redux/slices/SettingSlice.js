@@ -14,12 +14,16 @@ const initialState = {
   showInterface: true,
   showBorder: false,
   fontSize: 100,
+  editorWidth: 70,
 };
 
 export const SettingSlice = createSlice({
   name: 'Setting',
   initialState,
   reducers: {
+    setEditorWidth(state, action) {
+      state.editorWidth = action.payload;
+    },
     setFontSize(state, action) {
       state.fontSize = action.payload;
     },
@@ -77,5 +81,6 @@ export const {
   setShowInterface,
   setShowBorder,
   setFontSize,
+  setEditorWidth,
 } = SettingSlice.actions;
 export default SettingSlice.reducer;

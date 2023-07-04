@@ -27,7 +27,7 @@ import Checkbox from '@/components/Setting/Checkbox';
 
 import 'swiper/css';
 import '@/styles/theme.scss';
-import { setFontSize } from '../../redux/slices/SettingSlice.js';
+import { setEditorWidth, setFontSize } from '../../redux/slices/SettingSlice.js';
 
 const utils = new Utils();
 
@@ -82,6 +82,7 @@ const Setting = () => {
   const brightness = utils.readLocalStorage('brightness', state.brightness);
   const volumeClick = utils.readLocalStorage('volume_click', state.volumeClick);
   const fontSize = utils.readLocalStorage('font_size', state.fontSize);
+  const editorWidth = utils.readLocalStorage('editor_width', state.editorWidth);
 
   const activeSound = localStorage.getItem('sound_name') || state.soundName;
 
@@ -259,6 +260,13 @@ const Setting = () => {
               value={fontSize}
               min={80}
               max={200}
+            />
+            <InputSlider
+              title="Editor Width"
+              onChange={(e) => handleInputValue(e.target.value, setEditorWidth, 'editor_width')}
+              value={editorWidth}
+              min={10}
+              max={100}
             />
           </div>
 
