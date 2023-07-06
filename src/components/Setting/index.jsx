@@ -1,8 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faSortUp, faCheck } from '@fortawesome/free-solid-svg-icons';
-
-import '@/styles/main.scss';
 import classNames from 'classnames';
+import InputSlider from '@/components/Setting/InputSlider';
+import SelectList from '@/components/Setting/SelectList';
+import Checkbox from '@/components/Setting/Checkbox';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { background } from '@/images/images';
 import {
   setShowSetting,
@@ -12,29 +14,26 @@ import {
   setSoundName,
   setVolumeClick,
   setText,
+  setEditorWidth,
+  setFontSize,
 } from '@/redux/slices/SettingSlice';
-import InputSlider from '@/components/Setting/InputSlider';
-
-// Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-
-// Import Swiper styles
 import { useDispatch, useSelector } from 'react-redux';
 import { Utils } from '@/utils/Utils';
-import SelectList from '@/components/Setting/SelectList';
-import { useRef } from 'react';
-import Checkbox from '@/components/Setting/Checkbox';
+import { useContext, useRef } from 'react';
+import { AppContext } from '@/App';
 
 import 'swiper/css';
+import '@/styles/main.scss';
 import '@/styles/theme.scss';
-import { setEditorWidth, setFontSize } from '../../redux/slices/SettingSlice.js';
-
-const utils = new Utils();
 
 const Setting = () => {
+  const utils = new Utils();
+
   const dispatch = useDispatch();
   const state = useSelector((state) => state.SettingSlice);
   const importFilesRef = useRef(null);
+  const context = useContext(AppContext);
 
   const handleInputValue = (value, sliceMethod, storageID) => {
     dispatch(sliceMethod(value));
@@ -65,9 +64,7 @@ const Setting = () => {
 
   // Экспорт файлов
   const exportFile = () => {
-    // Надо сейвить принудительно
-
-    const text = localStorage.getItem('text') || state.text;
+    const text = context.getEditorText();
 
     let el = document.createElement('a');
 
@@ -110,6 +107,7 @@ const Setting = () => {
       localStorage.setItem('background_image', url);
     }
   };
+
   const customBackground = () => {
     const url = prompt('Вставьте ссылку на изображение');
 
@@ -151,7 +149,6 @@ const Setting = () => {
               className="setting_button rounded-[5px] py-[7.5px] px-[15px] font-rubik duration-300 flex items-center justify-center md-750:w-full md-750:mt-[10px]"
             >
               Export
-              <h3 className="font-rubik text-gray-2 ml-[5px]">({parseInt(state.textSize)}KB)</h3>
             </button>
           </div>
 
@@ -164,13 +161,6 @@ const Setting = () => {
               sliceMethod={setSoundName}
               storageID="sound_name"
             />
-            {/* <SelectList
-              title="Цветовая тема"
-              activeValue={activeTheme}
-              items={themes}
-              sliceMethod={setTheme}
-              storageID="theme_name"
-            /> */}
           </div>
 
           {/* Громкость при нажатии */}
@@ -183,16 +173,6 @@ const Setting = () => {
               max={100}
             />
           </div>
-
-          {/* <div className="mt-[25px] flex items-center">
-            <h3 className="font-rubik text-black-1">Показывать рамку</h3>
-            <div
-              id="show_border"
-              className="w-[20px] h-[20px] rounded-[2px] bg-white-2 ml-[10px] cursor-pointer flex justify-center items-center"
-            >
-              <FontAwesomeIcon icon={faCheck} className="text-white-1" />
-            </div>
-          </div> */}
 
           {/* Задний фон */}
           <div className="mt-[25px]">

@@ -5,7 +5,8 @@ import { setShowInterface } from '@/redux/slices/SettingSlice';
 import { sounds } from '@/sounds/sound';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { Utils } from '@/utils/Utils';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useContext } from 'react';
+import { AppContext } from '@/App';
 
 import 'react-quill/dist/quill.snow.css';
 import '@/styles/main.scss';
@@ -13,6 +14,10 @@ import '@/styles/theme.scss';
 
 const TextEditor = () => {
   const utils = new Utils();
+
+  let refElement = useRef(null);
+
+  const context = useContext(AppContext);
 
   const dispatch = useDispatch();
   const state = useSelector((state) => {
@@ -22,6 +27,8 @@ const TextEditor = () => {
       volumeClick: state.SettingSlice.volumeClick,
       fontSize: state.SettingSlice.fontSize,
       editorWidth: state.SettingSlice.editorWidth,
+      text: state.SettingSlice.text,
+      getText: state.SettingSlice.getText,
     };
   }, shallowEqual);
 
@@ -30,12 +37,10 @@ const TextEditor = () => {
   const fontSize = utils.readLocalStorage('font_size', state.fontSize);
   const editorWidth = utils.readLocalStorage('editor_width', state.editorWidth);
 
-  let editorRef = useRef(null);
-
   const scrollToElement = (element, block) => {
     const offsetTop = element.offsetTop;
     const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-    const editorDOM = editorRef.editor.root.closest('.quill');
+    const editorDOM = refElement.editor.root.closest('.quill');
     const editor_offset = editorDOM.offsetTop;
 
     let scrollPosition;
@@ -76,7 +81,7 @@ const TextEditor = () => {
     const audio = new Audio(sound);
 
     audio.volume = volumeClick / 100;
-    audio.play();
+    void audio.play();
   };
 
   const initSound = (e) => {
@@ -109,29 +114,27 @@ const TextEditor = () => {
   };
 
   const saveText = () => {
-    if (editorRef && editorRef.editor) {
-      const text = editorRef.editor.getText();
+    if (refElement && refElement.editor) {
+      const text = refElement.editor.getText();
       localStorage.setItem('text', text);
     }
   };
 
-  const applyFontSize = () => {
-    const defaultFontSize = 24;
-    const editor = editorRef.editor.root;
-    const pArr = editor.children;
-
-    for (const p of pArr) {
-      p.style.fontSize = `${(fontSize / 100) * defaultFontSize}px`;
+  const getEditorText = () => {
+    if (refElement && refElement.editor) {
+      return refElement.editor.getText();
     }
   };
+  context.getEditorText = getEditorText;
 
   // Load text
   useEffect(() => {
-    if (editorRef.editor) {
+    if (refElement && refElement.editor) {
       const text = localStorage.getItem('text') || state.text;
-      editorRef.editor.setText(text);
+
+      refElement.editor.setText(text);
     }
-  }, [editorRef, localStorage.getItem('text'), state.text]);
+  }, [refElement, state.text]);
 
   // Save before exit
   useEffect(() => {
@@ -149,10 +152,20 @@ const TextEditor = () => {
 
   // Update font size and editor width
   useEffect(() => {
-    if (editorRef && editorRef.editor) {
+    const applyFontSize = () => {
+      const defaultFontSize = 24;
+      const editor = refElement.editor.root;
+      const pArr = editor.children;
+
+      for (const p of pArr) {
+        p.style.fontSize = `${(fontSize / 100) * defaultFontSize}px`;
+      }
+    };
+
+    if (refElement && refElement.editor) {
       applyFontSize();
 
-      const editor = editorRef.editor.root;
+      const editor = refElement.editor.root;
       const root = editor.closest('.quill');
 
       root.style.width = `${editorWidth}%`;
@@ -174,7 +187,7 @@ const TextEditor = () => {
         )}
         ref={(el) => {
           if (el) {
-            editorRef = el;
+            refElement = el;
           }
         }}
       />
