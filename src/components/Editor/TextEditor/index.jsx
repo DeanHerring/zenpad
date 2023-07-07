@@ -132,7 +132,7 @@ const TextEditor = () => {
     if (refElement && refElement.editor) {
       const text = localStorage.getItem('text') || state.text;
 
-      refElement.editor.setText(text);
+      text.trim() === '' ? refElement.editor.setText(state.text) : refElement.editor.setText(text);
     }
   }, [refElement, state.text]);
 

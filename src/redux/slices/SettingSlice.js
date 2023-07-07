@@ -1,4 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Utils } from '@/Utils/Utils';
+
+const utils = new Utils();
+
+const a = [
+  'Стакан всегда наполовину полон. Всегда. Только не думай, что в стакане. Думай, что в стакане вода.',
+  'World',
+  'My',
+];
+const randomPhrase = a[utils.getRandomIntInRange(0, a.length - 1)];
 
 const initialState = {
   showSetting: false,
@@ -9,7 +19,7 @@ const initialState = {
   soundName: 'Wood',
   theme: 'light',
   volumeClick: 100,
-  text: 'Макс делает реклас',
+  text: randomPhrase,
   textSize: 0,
   showInterface: true,
   showBorder: false,
