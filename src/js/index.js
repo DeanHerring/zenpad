@@ -3,7 +3,6 @@ const quill = new Quill("#editor", {
     modules: {
         toolbar: false,
     },
-    placeholder: "Farting..."
 })
 
 const editor = document.querySelector('#editor');
@@ -41,4 +40,4 @@ const viewCenter = () => {
     }
 };
 
-quill.on('text-change', viewCenter);
+editor.addEventListener('keyup', viewCenter)
