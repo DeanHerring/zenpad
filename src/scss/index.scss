@@ -1,26 +1,47 @@
 @import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
 @import "reset";
 
+* {
+    box-sizing: border-box;
+}
+
 ::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
 
 .screen {
+    width: 100%;
     min-height: 100vh;
-    padding: 3.5rem 0;
+    // padding: 3.5rem 0;
     background: radial-gradient(circle at 85.4% 50.8%, rgb(14, 72, 222) 0%, rgb(3, 22, 65) 74.2%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
 }
 
 #editor {
     max-width: 1000px;
-    height: 2000px;
-    width: 90%;
+    width: 100%;
     border: 1px solid red;
-    margin: 0 auto;
-    font-family: "Inconsolata", sans-serif;
-    font-weight: 400;
-    font-size: 3rem;
-    overflow-y: auto;
-    color: white;
+}
+
+.ql-container {
+    &.ql-snow {
+        border: 1px solid rgba(0, 0, 0, 0) !important;
+        padding-bottom: 100vh;
+    }
+    .ql-editor {
+        p {
+            font-size: 3.5rem;
+            line-height: 125%;
+            font-family: "Inconsolata", sans-serif;
+            color: white;
+            margin: 0;
+            &:first-child {
+                margin-top: 0;
+            }
+        }
+    }
 }

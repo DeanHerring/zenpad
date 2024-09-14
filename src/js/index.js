@@ -9,30 +9,28 @@ const quill = new Quill("#editor", {
 const editor = document.querySelector('#editor');
 
 const scrollToElement = (element, block) => {
-    const editorContent = editor.querySelector('.ql-editor'); // Знайти внутрішній контейнер редактора
     const offsetTop = element.offsetTop;
-    const editorHeight = editor.clientHeight;
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+    const editorDOM = editor.querySelector('.ql-editor');
+    const editor_offset = editorDOM.offsetTop;
 
     let scrollPosition;
 
-    if (block === 'center') {
-        scrollPosition = offsetTop - editorHeight / 2 + element.offsetHeight / 2;
-    } else {
-        scrollPosition = offsetTop;
-    }
+    block === "center"
+        ? scrollPosition = offsetTop - windowHeight / 2 + element.offsetHeight + editor_offset
+        : scrollPosition = offsetTop
 
-    // Прокрутка внутрішнього контейнера редактора
-    editorContent.scrollTo({
-        top: scrollPosition,
-        behavior: 'smooth',
+    window.scrollTo({
+      top: scrollPosition,
+      behavior: 'smooth',
     });
 };
 
 const viewCenter = () => {
-    let selection = window.getSelection();
+    const selection = window.getSelection();
 
     if (selection.rangeCount > 0) {
-        let range = selection.getRangeAt(0);
+        const range = selection.getRangeAt(0);
         let currentNode = range.startContainer;
 
         while (currentNode.nodeType !== Node.ELEMENT_NODE) {
@@ -43,4 +41,4 @@ const viewCenter = () => {
     }
 };
 
-editor.addEventListener('keyup', viewCenter);
+quill.on('text-change', viewCenter);
